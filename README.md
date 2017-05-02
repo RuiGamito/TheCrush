@@ -1,6 +1,3 @@
-# LLL
-Learning Love &amp; Lua
+# TheCrush
 
-
-TheCrusher
-A game where must avoid getting hit by the never-ending crushing blocks.
+A game where pretty much everything tries to crush you...
