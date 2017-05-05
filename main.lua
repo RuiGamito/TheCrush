@@ -4,19 +4,23 @@
 --          2 -> Receding
 
 TILE_SIZE = 50
-BLOCK_WIDTH = 200
+BLOCK_WIDTH = 100
 PLAYER_SAFE = 0
 PLAYER_CRUSHED = 1
 PART = {}
 BLOCK_SPEED = 1.5
 MESSAGE = ""
+SPAWN_PROBABILITY = 0.05
+
+WIDTH = love.graphics.getWidth()
+
 
 -- each level has the following settings
 -- {SCORE_CAP, BLOCK_WIDTH, BLOCK_SPEED, MESSAGE}
 LEVEL_SETTINGS = {
-  {20,  200, 1.5, "Level 1 - Avoid the crushing blocks"},
-  {40, 160, 1.5, "Level 2 - Are the blocks getting smaller?"},
-  {80, 160, 1.8, "Level 3 - ... oh boy, it's faster now?"}
+  {20,  100, 1.5, "Level 1 - Avoid the crushing blocks"},
+  {40, 100, 1.5, "Level 2 - Are the blocks getting smaller?"},
+  {80, 100, 1.8, "Level 3 - ... oh boy, it's faster now?"}
 }
 
 function spawnBlock()
@@ -70,6 +74,11 @@ function resetGame()
 
   -- Add PLAYER_POINTS
   PLAYER_POINTS = 0
+
+  -- Set the BLOCK_WAIT var
+  BLOCK_WAIT = 100
+  BLOCK_WAIT_tmp = BLOCK_WAIT
+
 end
 
 function updateLevelStats()
@@ -123,9 +132,17 @@ function love.update(dt)
   -- evaluate if tail block is completely on the screen (on the right)
   -- and if it is, spawn a new one
   local last = blocks[num_blocks]
-  if last[1]+last[3] < 800 then
+
+  local pos = last[1]+last[3]
+
+  local prob = love.math.random(0,100)
+
+  if BLOCK_WAIT_tmp > 0 then
+    BLOCK_WAIT_tmp = BLOCK_WAIT - (WIDTH - pos)
+  elseif SPAWN_PROBABILITY * 100 > prob and pos < 800 then
     table.insert(blocks,spawnBlock())
     num_blocks = num_blocks + 1
+    BLOCK_WAIT_tmp = BLOCK_WAIT
   end
 
   -- decrease the x pos of the blocks, that is, make them move to the left
