@@ -10,7 +10,7 @@ PLAYER_CRUSHED = 1
 PART = {}
 BLOCK_SPEED = 1.5
 MESSAGE = ""
-SPAWN_PROBABILITY = 0.05
+SPAWN_PROBABILITY = 0.03
 
 WIDTH = love.graphics.getWidth()
 
@@ -24,7 +24,7 @@ LEVEL_SETTINGS = {
 }
 
 function spawnBlock()
-  return {800, 0, BLOCK_WIDTH, TILE_SIZE, love.math.random(0,1000)+800, 0}
+  return {800, love.math.random(0,200), BLOCK_WIDTH, TILE_SIZE, love.math.random(0,1000)+800, 0}
 end
 
 function drawPlayer()
