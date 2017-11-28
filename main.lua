@@ -55,9 +55,23 @@ end
 
 function love.draw()
   for _, block in ipairs(world.BLOCKS) do
-      love.graphics.setColor(255 - block[5]/4, 100, 0)
-      love.graphics.rectangle("fill", block[1], block[2], block[3], block[4])
+      love.graphics.setColor(255 - block.crush_trigger/4, 100, 0)
+      love.graphics.rectangle("fill", block.x_coord, block.y_coord, block.width, block.height)
   end
 
   world.draw()
+end
+
+
+function dump(o)
+   if type(o) == 'table' then
+      local s = '{ '
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+         s = s .. '['..k..'] = ' .. dump(v) .. ','
+      end
+      return s .. '} '
+   else
+      return tostring(o)
+   end
 end
