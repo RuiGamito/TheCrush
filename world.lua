@@ -44,7 +44,7 @@ function world.init()
   world.GRAVITY_Y=0
   world.PLAYER_SPEED_X=6
   world.PLAYER_SPEED_Y=3
-  world.EXPAND_DIRECTION=Block.EXPAND_RANDOM
+  world.EXPAND_DIRECTION=Block.EXPAND_DOWN
   -- create the block table
   initial_block = Block.create()
   initial_block.crush_trigger = love.math.random(0,world.CRUSH_BASE_VALUE)*2
@@ -128,7 +128,7 @@ function world.update()
 
   if BLOCK_WAIT_tmp > 0 then
     BLOCK_WAIT_tmp = BLOCK_WAIT - (world.WIDTH - pos)
-  elseif world.BLOCK_SPAWN_PROBABILITY * 100 > prob and pos < 800 then
+  elseif world.BLOCK_SPAWN_PROBABILITY * 100 > prob and pos < love.graphics.getWidth() then
     table.insert(world.BLOCKS,Block.create())
     num_blocks = num_blocks + 1
     BLOCK_WAIT_tmp = BLOCK_WAIT
@@ -170,6 +170,17 @@ function world.draw()
   world.drawPlayer()
   world.drawInfo()
   world.drawParticles()
+
+  local touches = love.touch.getTouches()
+
+    for i, id in ipairs(touches) do
+        local x, y = love.touch.getPosition(id)
+        print(x,y)
+        --love.graphics.circle("fill", x, y, 20)
+        world.PLAYER.X = x
+        world.PLAYER.Y = y
+    end
+
 end
 
 --- OTHER GAME FUNCTIONS

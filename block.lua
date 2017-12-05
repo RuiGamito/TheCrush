@@ -67,14 +67,14 @@ function Block.expand(block)
 
   if block.expand == Block.EXPAND_DOWN then
     -- keep crushing if the block didn't hit the bottom
-    if block.height < 800 then
+    if block.height < love.graphics.getHeight() then
       block.height = block.height + 200
     else
       -- otherwise change status to RECEDING, on the block
       -- and a point ;)
       pSystem:emit(32)
       PART[1] = block.x_coord + block.width/2
-      PART[2] = 600
+      PART[2] = love.graphics.getHeight() - 200
       PLAYER_POINTS = PLAYER_POINTS + 1
       block.status = 2
     end
