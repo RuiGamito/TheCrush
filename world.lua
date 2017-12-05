@@ -25,9 +25,8 @@ function world.init()
   world.BLOCKS = {}
   world.TILE_SIZE = 30
 
-  world.DYNAMIC_BLOCK_WIDTH = true
+  world.DYNAMIC_BLOCK_WIDTH = false
   world.DYNAMIC_BLOCK_Y = true
-  world.DYNAMIC_BLOCK_CRUSH_DIR = true
   --PLAYER_SAFE = 0
   --PLAYER_CRUSHED = 1
   --PART = {},
@@ -175,12 +174,28 @@ function world.draw()
 
     for i, id in ipairs(touches) do
         local x, y = love.touch.getPosition(id)
-        print(x,y)
-        --love.graphics.circle("fill", x, y, 20)
-        world.PLAYER.X = x
-        world.PLAYER.Y = y
-    end
+        if touch then
+          local dx = x - touch_x
+          local dy = y - touch_y
 
+          --love.graphics.circle("fill", x, y, 20)
+          world.PLAYER.X = world.PLAYER.X + dx
+          world.PLAYER.Y = world.PLAYER.Y + dy
+
+          touch_x = x
+          touch_y = y
+        end
+    end
+end
+
+function love.touchpressed(id, x, y, dx, dy, pressure)
+  touch = true
+  touch_x = x
+  touch_y = y
+end
+
+function love.touchreleased(id, x, y, dx, dy, pressure)
+  touch = false
 end
 
 --- OTHER GAME FUNCTIONS
