@@ -37,3 +37,5 @@ ant debug
 
 cp bin/love_android_sdl2-debug.apk ../../game.apk
 
+cd "$CWD"
+echo $(ps -p $(ps -p $PPID -o ppid=) -o ppid=) > PID
