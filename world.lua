@@ -30,12 +30,12 @@ function world.init()
   --PLAYER_SAFE = 0
   --PLAYER_CRUSHED = 1
   --PART = {},
-  world.BLOCK_SPEED = 3.0
+  world.BLOCK_SPEED = 6.0
   world.MESSAGE = ""
-  world.BLOCK_SPAWN_PROBABILITY = 0.20
+  world.BLOCK_SPAWN_PROBABILITY = 0.10
   world.WIDTH = love.graphics.getWidth()
   world.HEIGHT = love.graphics.getHeight()
-  world.PLAYER = player.create()
+  world.PLAYER = Player.create()
   world.PLAYER.WIDTH = world.TILE_SIZE
   world.PLAYER.HEIGHT = world.TILE_SIZE
   world.CRUSH_BASE_VALUE = 500
@@ -109,6 +109,23 @@ function world.update()
     end
   end
 
+  -- deal with the touch movements
+  local touches = love.touch.getTouches()
+  for i, id in ipairs(touches) do
+    local x, y = love.touch.getPosition(id)
+    if touch then
+      local dx = x - touch_x
+      local dy = y - touch_y
+
+      --love.graphics.circle("fill", x, y, 20)
+      Player.setPosition(world.PLAYER, world.PLAYER.X + dx, world.PLAYER.Y + dy)
+
+      touch_x = x
+      touch_y = y
+    end
+  end
+
+
   -- evaluate if head block is completely out of the screen (to the left)
   -- and if it is, remove it
   local first = world.BLOCKS[1]
@@ -169,23 +186,6 @@ function world.draw()
   world.drawPlayer()
   world.drawInfo()
   world.drawParticles()
-
-  local touches = love.touch.getTouches()
-
-    for i, id in ipairs(touches) do
-        local x, y = love.touch.getPosition(id)
-        if touch then
-          local dx = x - touch_x
-          local dy = y - touch_y
-
-          --love.graphics.circle("fill", x, y, 20)
-          world.PLAYER.X = world.PLAYER.X + dx
-          world.PLAYER.Y = world.PLAYER.Y + dy
-
-          touch_x = x
-          touch_y = y
-        end
-    end
 end
 
 function love.touchpressed(id, x, y, dx, dy, pressure)
