@@ -17,6 +17,8 @@ LEVEL_SETTINGS = {
   {80, 100, 1.8, "Level 3 - ... oh boy, it's faster now?"}
 }
 
+FRAME_COUNT = 0
+
 function updateLevelStats()
   if PLAYER_POINTS < LEVEL_SETTINGS[LEVEL][1] then
     return
@@ -48,17 +50,13 @@ end
 
 
 function love.update(dt)
+  FRAME_COUNT = FRAME_COUNT+1
   world.update()
   pSystem:update(dt)
   --updateLevelStats()
 end
 
 function love.draw()
-  for _, block in ipairs(world.BLOCKS) do
-      love.graphics.setColor(255 - block.crush_trigger/4, 100, 0)
-      love.graphics.rectangle("fill", block.x_coord, block.y_coord, block.width, block.height)
-  end
-
   world.draw()
 end
 

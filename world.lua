@@ -188,14 +188,14 @@ function world.update()
 
 
       -- if crush_trigger is over and status is 0
-      if block.crush_trigger <= 0 and STATUS == 0 then
+      if block.crush_trigger <= 0 and STATUS == BLOCK_STATUS_IDLE then
         -- change the status to CRUSHING on the block
-        block.status = 1
-      elseif STATUS == 1 then -- if the block is crushing
+        block.status = BLOCK_STATUS_CRUSHING
+      elseif STATUS == BLOCK_STATUS_CRUSHING then -- if the block is crushing
         -- keep crushing if the block didn't hit the bottom
         Block.expand(block)
 
-      elseif STATUS == 2 then -- if the block is receding
+      elseif STATUS == BLOCK_STATUS_RECEDING then -- if the block is receding
         Block.retract(block)
       else -- simply decrease the CRUSH_TRIGGER
         block.crush_trigger = block.crush_trigger - 4
@@ -214,6 +214,7 @@ function world.draw()
     world.drawPlayer()
     world.drawInfo()
     world.drawParticles()
+    world.drawBlocks()
   end
   mgr:draw()
   world.drawButtons()
@@ -290,6 +291,12 @@ function world.drawButtons()
     if not element:getVisible() then
       mgrContainer:removeChild(element)
     end
+  end
+end
+
+function world.drawBlocks()
+  for _, block in ipairs(world.BLOCKS) do
+      Block.draw(block)
   end
 end
 

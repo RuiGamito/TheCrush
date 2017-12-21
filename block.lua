@@ -11,6 +11,13 @@ Block = {
   status = "something"
 }
 
+BLOCK_STATUS_IDLE =0
+BLOCK_STATUS_CRUSHING = 1
+BLOCK_STATUS_RECEDING = 2
+
+PULSING_TIME = 20
+PULSING_SIZE = 10
+
 Block.__index = Block
 
 Block.DEFAULT_WIDTH = 70
@@ -120,4 +127,13 @@ function Block.retract(block)
       block.crush_trigger = love.math.random(0,1000)+500
     end
   end
+end
+
+function Block.draw(block)
+  love.graphics.setColor(255 - block.crush_trigger/4, 100, 0)
+
+
+  local pulsing = ((FRAME_COUNT%PULSING_TIME)/PULSING_TIME)*PULSING_SIZE
+
+  love.graphics.rectangle("fill", block.x_coord-pulsing, block.y_coord-pulsing, block.width+(2*pulsing), block.height+(2*pulsing))
 end
