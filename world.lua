@@ -2,6 +2,7 @@ require("player")
 require("block")
 require("catui")
 require("buttons")
+require("walls")
 
 world = {}
 
@@ -18,6 +19,7 @@ function world.init()
   print("Initializing world...")
 
   world.BLOCKS = {}
+  world.WALLS = {}
   num_blocks = 0
   world.TILE_SIZE = 50
 
@@ -50,12 +52,17 @@ end
 function world.play()
 
   world.BLOCKS = {}
+  world.WALLS = {}
 
   -- create the block table
   initial_block = Block.create()
   initial_block.crush_trigger = love.math.random(0,world.CRUSH_BASE_VALUE)*2
   table.insert(world.BLOCKS, initial_block)
   num_blocks = 1
+
+  table.insert(world.WALLS,Wall.create(nil))
+  table.insert(world.WALLS,Wall.create(nil))
+  num_wall = 2
 
   -- Set the LEVEL
   LEVEL = 1
@@ -207,10 +214,22 @@ function world.update()
 
   end -- for
 
+  for _, wall in ipairs(world.WALLS) do
+      wall.x = wall.x - world.BLOCK_SPEED
+  end -- for
+  if(#world.WALLS > 0) then
+    local lastwall = world.WALLS[#world.WALLS]
+    if(lastwall.x <= love.graphics.getHeight())then
+      table.insert(world.WALLS,Wall.create(lastwall))
+      table.insert(world.WALLS,Wall.create(lastwall))
+      num_wall = num_wall + 2
+    end
+  end
 end
 
 function world.draw()
   if GAME_STATE == PLAYING then
+    world.drawWalls()
     world.drawPlayer()
     world.drawInfo()
     world.drawParticles()
@@ -297,6 +316,12 @@ end
 function world.drawBlocks()
   for _, block in ipairs(world.BLOCKS) do
       Block.draw(block)
+  end
+end
+
+function world.drawWalls()
+  for _, wall in ipairs(world.WALLS) do
+      Wall.draw(wall)
   end
 end
 
