@@ -13,21 +13,6 @@ Wall = {
 
 WALL_NUM = 0
 
-TILE_001 = {
-  { x = 10, y = 10, w = 10, h = 80},
-  { x = 10, y = 10, w = 80, h = 10}
-}
-
-TILE_002 = {
-  { x = 40, y = 0 , w = 10, h = 70},
-  { x = 60, y = 30, w = 10, h = 70}
-}
-
-TILES = {
-  TILE_001,
-  TILE_002
-}
-
 function Wall.create(lastwall)
   local self = setmetatable({}, Wall)
 
