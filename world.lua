@@ -1,38 +1,31 @@
 require("player")
 require("block")
+require("catui")
+require("buttons")
 
-world = {
-  BLOCKS = nil,
-  TILE_SIZE = nil,
-  BLOCK_WIDTH = nil,
-  DYNAMIC_BLOCK_WITH = nil,
-  PLAYER_SAFE = nil,
-  PLAYER_CRUSHED = nil,
-  PART = nil,
-  BLOCK_SPEED = nil,
-  MESSAGE = nil,
-  BLOCK_SPAWN_PROBABILITY = nil,
-  WIDTH = nil,
-  HEIGHT = nil,
-  PLAYER = nil
-}
+world = {}
+
+-- GAME STATES
+GAMEMENU = 0
+PLAYING = 1
+
+
 
 -- GAME CICLE
 
 -- Initialize the world
 function world.init()
   print("Initializing world...")
+
   world.BLOCKS = {}
-  world.TILE_SIZE = 30
+  num_blocks = 0
+  world.TILE_SIZE = 50
 
   world.DYNAMIC_BLOCK_WIDTH = false
   world.DYNAMIC_BLOCK_Y = true
-  --PLAYER_SAFE = 0
-  --PLAYER_CRUSHED = 1
-  --PART = {},
-  world.BLOCK_SPEED = 6.0
+  world.BLOCK_SPEED = 2.4
   world.MESSAGE = ""
-  world.BLOCK_SPAWN_PROBABILITY = 0.10
+  world.BLOCK_SPAWN_PROBABILITY = 0.01
   world.WIDTH = love.graphics.getWidth()
   world.HEIGHT = love.graphics.getHeight()
   world.PLAYER = Player.create()
@@ -44,6 +37,20 @@ function world.init()
   world.PLAYER_SPEED_X=6
   world.PLAYER_SPEED_Y=3
   world.EXPAND_DIRECTION=Block.EXPAND_DOWN
+
+  -- Initialize buttons
+  world.buttons = {}
+
+  mgr = UIManager:getInstance()
+  mgrContainer = mgr.rootCtrl.coreContainer
+
+  GAME_STATE = GAMEMENU
+end
+
+function world.play()
+
+  world.BLOCKS = {}
+
   -- create the block table
   initial_block = Block.create()
   initial_block.crush_trigger = love.math.random(0,world.CRUSH_BASE_VALUE)*2
@@ -57,21 +64,37 @@ function world.init()
   --local player = {300, 550, world.TILE_SIZE, world.TILE_SIZE}
   PLAYER_STATUS = PLAYER_SAFE
 
-  -- Add PLAYER_POINTS
+  -- Reset PLAYER_POINTS
   PLAYER_POINTS = 0
 
   -- Set the BLOCK_WAIT var
   BLOCK_WAIT = 10
   BLOCK_WAIT_tmp = BLOCK_WAIT
+
+  GAME_STATE = PLAYING
 end
 
 function world.load()
   world.init()
+  addButtons()
 end
 
 function world.update()
 
+  mgr:update(dt)
+
   if PLAYER_STATUS == PLAYER_CRUSHED then
+
+    local ts = love.touch.getTouches()
+    for i, id in ipairs(ts) do
+      local x, y = love.touch.getPosition(id)
+      if y+100 > love.graphics.getHeight()/2 and
+          y-100 < love.graphics.getHeight()/2 and
+          x<500 then -- use string.getWidth() to get the lenght in pixels
+            world.init()
+          end
+    end
+
     if love.keyboard.isDown("space")  then
       world.init()
     else
@@ -125,29 +148,33 @@ function world.update()
     end
   end
 
+  Player.adjustPosition(world.PLAYER)
+
 
   -- evaluate if head block is completely out of the screen (to the left)
   -- and if it is, remove it
-  local first = world.BLOCKS[1]
-  if first.x_coord+first.height < 0 then
-    table.remove(world.BLOCKS,1)
-    num_blocks = num_blocks - 1
-  end
+  if num_blocks > 0 then
+    local first = world.BLOCKS[1]
+    if first.x_coord+first.height < 0 then
+      table.remove(world.BLOCKS,1)
+      num_blocks = num_blocks - 1
+    end
 
-  -- evaluate if tail block is completely on the screen (on the right)
-  -- and if it is, spawn a new one
-  local last = world.BLOCKS[num_blocks]
+    -- evaluate if tail block is completely on the screen (on the right)
+    -- and if it is, spawn a new one
+    local last = world.BLOCKS[num_blocks]
 
-  local pos = last.x_coord+last.width
+    local pos = last.x_coord+last.width
 
-  local prob = love.math.random(0,100)
+    local prob = love.math.random(0,100)
 
-  if BLOCK_WAIT_tmp > 0 then
-    BLOCK_WAIT_tmp = BLOCK_WAIT - (world.WIDTH - pos)
-  elseif world.BLOCK_SPAWN_PROBABILITY * 100 > prob and pos < love.graphics.getWidth() then
-    table.insert(world.BLOCKS,Block.create())
-    num_blocks = num_blocks + 1
-    BLOCK_WAIT_tmp = BLOCK_WAIT
+    if BLOCK_WAIT_tmp > 0 then
+      BLOCK_WAIT_tmp = BLOCK_WAIT - (world.WIDTH - pos)
+    elseif world.BLOCK_SPAWN_PROBABILITY * 100 > prob and pos < love.graphics.getWidth() then
+      table.insert(world.BLOCKS,Block.create())
+      num_blocks = num_blocks + 1
+      BLOCK_WAIT_tmp = BLOCK_WAIT
+    end
   end
 
   -- decrease the x pos of the blocks, that is, make them move to the left
@@ -183,15 +210,23 @@ function world.update()
 end
 
 function world.draw()
-  world.drawPlayer()
-  world.drawInfo()
-  world.drawParticles()
+  if GAME_STATE == PLAYING then
+    world.drawPlayer()
+    world.drawInfo()
+    world.drawParticles()
+  end
+  mgr:draw()
+  world.drawButtons()
 end
 
 function love.touchpressed(id, x, y, dx, dy, pressure)
   touch = true
   touch_x = x
   touch_y = y
+end
+
+function love.mousepressed(x, y, button, isTouch)
+    mgr:mouseDown(x, y, button, isTouch)
 end
 
 function love.touchreleased(id, x, y, dx, dy, pressure)
@@ -219,7 +254,17 @@ end
 function world.drawInfo()
   -- Print the score
   love.graphics.setColor(255, 0, 0)
-  love.graphics.print("Crushes avoided: " .. PLAYER_POINTS, 10, 100)
+  love.graphics.print("Crushes avoided: " .. PLAYER_POINTS, 10, 100, 0, 2, 2)
+
+  if PLAYER_STATUS == PLAYER_CRUSHED then
+    -- love.graphics.setColor(255, 0, 0)
+    -- love.graphics.print("Touch here to play again! ;)", 10, love.graphics.getHeight()/2, 0, 4, 4)
+    local b = world.buttons["play_again"]
+    if not b:getVisible() then
+      b:setVisible(true)
+      mgrContainer:addChild(b)
+    end
+  end
 
   -- Print the level message
   love.graphics.setColor(0, 255, 0)
@@ -230,6 +275,22 @@ end
 function world.drawParticles()
   love.graphics.setColor(255, 100, 100)
   love.graphics.draw(pSystem, PART[1], PART[2])
+end
+
+function world.drawButtons()
+  -- add visible buttons to the UIManager
+  for _,button in pairs(world.buttons) do
+    if button:getVisible() and not mgrContainer:hasChildren(button) then
+      mgrContainer:addChild(button)
+    end
+  end
+
+  -- remove not visible elements from UIManager
+  for _,element in pairs(mgrContainer:getChildren()) do
+    if not element:getVisible() then
+      mgrContainer:removeChild(element)
+    end
+  end
 end
 
 function world.print()
