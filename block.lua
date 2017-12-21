@@ -1,3 +1,5 @@
+require "colors"
+
 Block = {
   x_coord = nil,
   y_coord = nil,
@@ -176,7 +178,7 @@ function Block.draw(block)
   local w = block.width + pulsing_left + pulsing_right - (2*distortH)
   local h = block.height + pulsing_up + pulsing_down - (2*distortV)
 
-  love.graphics.setColor(255 - block.crush_trigger/4, 100, 0)
+  love.graphics.setColor(PALETE_COLOR_1.R,PALETE_COLOR_1.G,PALETE_COLOR_1.B)
   love.graphics.rectangle("fill", x , y , w , h )
 
   if(block.expand == 0) then
