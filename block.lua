@@ -13,13 +13,13 @@ Block = {
 
 Block.__index = Block
 
-Block.DEFAULT_WIDTH = 30
-Block.DEFAULT_HEIGHT = 20
+Block.DEFAULT_WIDTH = 70
+Block.DEFAULT_HEIGHT = 50
 Block.EXPAND_DOWN = 0
 Block.EXPAND_UP = 1
 Block.EXPAND_RANDOM = 2
 
-function Block.create(init)
+function Block.create()
   local self = setmetatable({}, Block)
 
   -- {800, love.math.random(0,200), world.BLOCK_WIDTH, world.TILE_SIZE, love.math.random(0,1000)+800, 0}
@@ -74,7 +74,7 @@ function Block.expand(block)
       -- and a point ;)
       pSystem:emit(32)
       PART[1] = block.x_coord + block.width/2
-      PART[2] = love.graphics.getHeight() - 200
+      PART[2] = love.graphics.getHeight()
       PLAYER_POINTS = PLAYER_POINTS + 1
       block.status = 2
     end
