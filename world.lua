@@ -1,8 +1,8 @@
-require("background")
 require("player")
 require("block")
 require("catui")
 require("buttons")
+require("walls")
 
 world = {}
 
@@ -19,6 +19,7 @@ function world.init()
   print("Initializing world...")
 
   world.BLOCKS = {}
+  world.WALLS = {}
   num_blocks = 0
   world.TILE_SIZE = 50
 
@@ -51,12 +52,17 @@ end
 function world.play()
 
   world.BLOCKS = {}
+  world.WALLS = {}
 
   -- create the block table
   initial_block = Block.create()
   initial_block.crush_trigger = love.math.random(0,world.CRUSH_BASE_VALUE)*2
   table.insert(world.BLOCKS, initial_block)
   num_blocks = 1
+
+  table.insert(world.WALLS,Wall.create(nil))
+  table.insert(world.WALLS,Wall.create(nil))
+  num_wall = 2
 
   -- Set the LEVEL
   LEVEL = 1
@@ -73,15 +79,17 @@ function world.play()
   BLOCK_WAIT_tmp = BLOCK_WAIT
 
   GAME_STATE = PLAYING
+
+  Player.reset(world.PLAYER)
 end
 
 function world.load()
   world.init()
-  Background.load()
   addButtons()
 end
 
 function world.update()
+
   mgr:update(dt)
 
   if PLAYER_STATUS == PLAYER_CRUSHED then
@@ -151,15 +159,14 @@ function world.update()
 
   Player.adjustPosition(world.PLAYER)
 
+  if (world.PLAYER.X <= 0)  then
+    PLAYER_STATUS = PLAYER_CRUSHED
+  end
 
   -- evaluate if head block is completely out of the screen (to the left)
   -- and if it is, remove it
   if num_blocks > 0 then
     local first = world.BLOCKS[1]
-    if first.x_coord+first.height < 0 then
-      table.remove(world.BLOCKS,1)
-      num_blocks = num_blocks - 1
-    end
 
     -- evaluate if tail block is completely on the screen (on the right)
     -- and if it is, spawn a new one
@@ -176,6 +183,11 @@ function world.update()
       num_blocks = num_blocks + 1
       BLOCK_WAIT_tmp = BLOCK_WAIT
     end
+
+    if first.x_coord+first.height < 0 then
+      table.remove(world.BLOCKS,1)
+      num_blocks = num_blocks - 1
+    end
   end
 
   -- decrease the x pos of the blocks, that is, make them move to the left
@@ -185,6 +197,8 @@ function world.update()
 
       local STATUS = block.status
       local LENGTH = block.height
+
+
 
       -- if crush_trigger is over and status is 0
       if block.crush_trigger <= 0 and STATUS == BLOCK_STATUS_IDLE then
@@ -206,13 +220,23 @@ function world.update()
 
   end -- for
 
-  Background.update()
-
+  for _, wall in ipairs(world.WALLS) do
+      wall.x = wall.x - world.BLOCK_SPEED
+      world.checkPlayerWallCollision(wall)
+  end -- for
+  if(#world.WALLS > 0) then
+    local lastwall = world.WALLS[#world.WALLS]
+    if(lastwall.x <= love.graphics.getHeight())then
+      table.insert(world.WALLS,Wall.create(lastwall))
+      table.insert(world.WALLS,Wall.create(lastwall))
+      num_wall = num_wall + 2
+    end
+  end
 end
 
 function world.draw()
   if GAME_STATE == PLAYING then
-    Background.draw()
+    world.drawWalls()
     world.drawPlayer()
     world.drawInfo()
     world.drawParticles()
@@ -247,6 +271,10 @@ function world.checkPlayerBlockCollision(block)
   else
        return false
   end
+end
+
+function world.checkPlayerWallCollision(wall)
+   Wall.checkPlayerWallCollision(wall)
 end
 
 function world.drawPlayer()
@@ -299,6 +327,12 @@ end
 function world.drawBlocks()
   for _, block in ipairs(world.BLOCKS) do
       Block.draw(block)
+  end
+end
+
+function world.drawWalls()
+  for _, wall in ipairs(world.WALLS) do
+      Wall.draw(wall)
   end
 end
 

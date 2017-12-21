@@ -1,15 +1,18 @@
+require "colors"
+
 Block = {
   x_coord = nil,
   y_coord = nil,
   height = nil,
   width = nil,
-  expand_up = true,
-  expand_down = true,
-  expand_right = true,
-  expand_left = true,
+  pulse_up = true,
+  pulse_down = true,
+  pulse_right = true,
+  pulse_left = true,
   distortHorizontal = true,
   distortVertical = false,
   crush_trigger = nil,
+
   status = "something"
 }
 
@@ -144,16 +147,16 @@ function Block.draw(block)
   local distortH = 0
   local distortV = 0
 
-  if(block.expand_left) then
+  if(block.pulse_left) then
     pulsing_left = pulsing
   end
-  if(block.expand_right) then
+  if(block.pulse_right) then
     pulsing_right = pulsing
   end
-  if(block.expand_up) then
+  if(block.pulse_up) then
     pulsing_up = pulsing
   end
-  if(block.expand_down) then
+  if(block.pulse_down) then
     pulsing_down = pulsing
   end
   if(block.distortHorizontal) then
@@ -175,6 +178,13 @@ function Block.draw(block)
   local w = block.width + pulsing_left + pulsing_right - (2*distortH)
   local h = block.height + pulsing_up + pulsing_down - (2*distortV)
 
-  love.graphics.setColor(255 - block.crush_trigger/4, 100, 0)
+  love.graphics.setColor(PALETE_COLOR_1.R,PALETE_COLOR_1.G,PALETE_COLOR_1.B)
   love.graphics.rectangle("fill", x , y , w , h )
+
+  if(block.expand == 0) then
+      love.graphics.rectangle("fill", x , y + h + h/8 , w , h/8 )
+  end
+  if(block.expand == 1) then
+    love.graphics.rectangle("fill", x , y - h*2/8 , w , h/8)
+  end
 end
