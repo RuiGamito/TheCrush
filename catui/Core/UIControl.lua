@@ -526,7 +526,6 @@ function UIControl:getChildren()
 end
 
 function UIControl:hasChildren(child)
-    print(self.childrenIdx[child])
     return self.childrenIdx[child]
 end
 
