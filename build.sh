@@ -15,7 +15,7 @@ echo
 echo "Running packager..."
 cd $APK_TOOL_DIR
 open -g $BUILD_APK > /dev/null
-sleep 10
+sleep 30
 
 if [ -f $APK_FILE ]; then
   echo "  - APK created"

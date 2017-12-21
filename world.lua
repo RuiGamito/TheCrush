@@ -1,3 +1,4 @@
+require("background")
 require("player")
 require("block")
 require("catui")
@@ -76,11 +77,11 @@ end
 
 function world.load()
   world.init()
+  Background.load()
   addButtons()
 end
 
 function world.update()
-
   mgr:update(dt)
 
   if PLAYER_STATUS == PLAYER_CRUSHED then
@@ -185,8 +186,6 @@ function world.update()
       local STATUS = block.status
       local LENGTH = block.height
 
-
-
       -- if crush_trigger is over and status is 0
       if block.crush_trigger <= 0 and STATUS == BLOCK_STATUS_IDLE then
         -- change the status to CRUSHING on the block
@@ -207,10 +206,13 @@ function world.update()
 
   end -- for
 
+  Background.update()
+
 end
 
 function world.draw()
   if GAME_STATE == PLAYING then
+    Background.draw()
     world.drawPlayer()
     world.drawInfo()
     world.drawParticles()
