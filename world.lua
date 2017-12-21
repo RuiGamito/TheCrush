@@ -36,7 +36,7 @@ function world.init()
   world.GRAVITY_Y=0
   world.PLAYER_SPEED_X=6
   world.PLAYER_SPEED_Y=3
-  world.EXPAND_DIRECTION=Block.EXPAND_DOWN
+  world.EXPAND_DIRECTION=Block.EXPAND_RANDOM
 
   -- Initialize buttons
   world.buttons = {}
