@@ -3,10 +3,12 @@ Block = {
   y_coord = nil,
   height = nil,
   width = nil,
-  expand_up = false,
-  expand_down = false,
-  expand_right = false,
-  expand_left = false,
+  expand_up = true,
+  expand_down = true,
+  expand_right = true,
+  expand_left = true,
+  distortHorizontal = true,
+  distortVertical = false,
   crush_trigger = nil,
   status = "something"
 }
@@ -15,8 +17,10 @@ BLOCK_STATUS_IDLE =0
 BLOCK_STATUS_CRUSHING = 1
 BLOCK_STATUS_RECEDING = 2
 
-PULSING_TIME = 20
+PULSING_TIME = 29
 PULSING_SIZE = 10
+
+DISTORT_VALUE = 20
 
 Block.__index = Block
 
@@ -130,10 +134,47 @@ function Block.retract(block)
 end
 
 function Block.draw(block)
-  love.graphics.setColor(255 - block.crush_trigger/4, 100, 0)
-
 
   local pulsing = ((FRAME_COUNT%PULSING_TIME)/PULSING_TIME)*PULSING_SIZE
 
-  love.graphics.rectangle("fill", block.x_coord-pulsing, block.y_coord-pulsing, block.width+(2*pulsing), block.height+(2*pulsing))
+  local pulsing_left = 0
+  local pulsing_right = 0
+  local pulsing_up = 0
+  local pulsing_down = 0
+  local distortH = 0
+  local distortV = 0
+
+  if(block.expand_left) then
+    pulsing_left = pulsing
+  end
+  if(block.expand_right) then
+    pulsing_right = pulsing
+  end
+  if(block.expand_up) then
+    pulsing_up = pulsing
+  end
+  if(block.expand_down) then
+    pulsing_down = pulsing
+  end
+  if(block.distortHorizontal) then
+    distortH = DISTORT_VALUE - block.crush_trigger/10
+    if(distortH <= 0)then
+      distortH = 0
+    end
+  end
+  if(block.distortVertical) then
+    distortV = DISTORT_VALUE - block.crush_trigger/10
+    if(distortV <= 0)then
+      distortV = 0
+    end
+  end
+
+
+  local x = block.x_coord - pulsing_left + distortH
+  local y = block.y_coord - pulsing_up + distortV
+  local w = block.width + pulsing_left + pulsing_right - (2*distortH)
+  local h = block.height + pulsing_up + pulsing_down - (2*distortV)
+
+  love.graphics.setColor(255 - block.crush_trigger/4, 100, 0)
+  love.graphics.rectangle("fill", x , y , w , h )
 end
