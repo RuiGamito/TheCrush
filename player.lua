@@ -22,3 +22,18 @@ end
 function Player.setWidth(p, w)
   p.WIDTH = w
 end
+
+function Player.adjustPosition(p)
+  if p.X < 0 then
+    p.X = 0
+  end
+  if p.X > love.graphics.getWidth() - t_width then
+    p.X = love.graphics.getWidth() - t_width
+  end
+  if p.Y < 0 then
+    p.Y = 0
+  end
+  if p.Y > love.graphics.getHeight() - t_height then
+    p.Y = love.graphics.getHeight() - t_height
+  end
+end
