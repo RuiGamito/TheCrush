@@ -10,6 +10,11 @@ function Player.create()
   return {X=t_x, Y=t_y, HEIGHT=t_height, WIDTH=t_width, TILE=nil}
 end
 
+function Player.reset(player)
+  player.X=t_x
+  player.Y=t_y
+end
+
 function Player.setPosition(p, xx, yy)
   p.X = xx
   p.Y = yy

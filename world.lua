@@ -27,7 +27,7 @@ function world.init()
   world.DYNAMIC_BLOCK_Y = true
   world.BLOCK_SPEED = 2.4
   world.MESSAGE = ""
-  world.BLOCK_SPAWN_PROBABILITY = 0.01
+  world.BLOCK_SPAWN_PROBABILITY = 0.00
   world.WIDTH = love.graphics.getWidth()
   world.HEIGHT = love.graphics.getHeight()
   world.PLAYER = Player.create()
@@ -79,6 +79,8 @@ function world.play()
   BLOCK_WAIT_tmp = BLOCK_WAIT
 
   GAME_STATE = PLAYING
+
+  Player.reset(world.PLAYER)
 end
 
 function world.load()
@@ -157,15 +159,14 @@ function world.update()
 
   Player.adjustPosition(world.PLAYER)
 
+  if (world.PLAYER.X <= 0)  then
+    PLAYER_STATUS = PLAYER_CRUSHED
+  end
 
   -- evaluate if head block is completely out of the screen (to the left)
   -- and if it is, remove it
   if num_blocks > 0 then
     local first = world.BLOCKS[1]
-    if first.x_coord+first.height < 0 then
-      table.remove(world.BLOCKS,1)
-      num_blocks = num_blocks - 1
-    end
 
     -- evaluate if tail block is completely on the screen (on the right)
     -- and if it is, spawn a new one
@@ -181,6 +182,11 @@ function world.update()
       table.insert(world.BLOCKS,Block.create())
       num_blocks = num_blocks + 1
       BLOCK_WAIT_tmp = BLOCK_WAIT
+    end
+
+    if first.x_coord+first.height < 0 then
+      table.remove(world.BLOCKS,1)
+      num_blocks = num_blocks - 1
     end
   end
 
@@ -216,6 +222,7 @@ function world.update()
 
   for _, wall in ipairs(world.WALLS) do
       wall.x = wall.x - world.BLOCK_SPEED
+      world.checkPlayerWallCollision(wall)
   end -- for
   if(#world.WALLS > 0) then
     local lastwall = world.WALLS[#world.WALLS]
@@ -264,6 +271,10 @@ function world.checkPlayerBlockCollision(block)
   else
        return false
   end
+end
+
+function world.checkPlayerWallCollision(wall)
+   Wall.checkPlayerWallCollision(wall)
 end
 
 function world.drawPlayer()
