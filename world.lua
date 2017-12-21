@@ -3,6 +3,7 @@ require("block")
 require("catui")
 require("buttons")
 require("walls")
+require("background")
 
 world = {}
 
@@ -84,12 +85,14 @@ function world.play()
 end
 
 function world.load()
+  Background.load()
   world.init()
   addButtons()
 end
 
 function world.update()
 
+  Background.update()
   mgr:update(dt)
 
   if PLAYER_STATUS == PLAYER_CRUSHED then
@@ -236,6 +239,7 @@ end
 
 function world.draw()
   if GAME_STATE == PLAYING then
+    Background.draw()
     world.drawWalls()
     world.drawPlayer()
     world.drawInfo()
