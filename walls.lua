@@ -1,3 +1,5 @@
+require "tiles"
+
 Wall = {
   x = 0,
   y = 0,
@@ -5,10 +7,26 @@ Wall = {
   width = 0,
   colorR = 0,
   colorG = 0,
-  colorB = 0
+  colorB = 0,
+  tile = nil
 }
 
 WALL_NUM = 0
+
+TILE_001 = {
+  { x = 10, y = 10, w = 10, h = 80},
+  { x = 10, y = 10, w = 80, h = 10}
+}
+
+TILE_002 = {
+  { x = 40, y = 0 , w = 10, h = 70},
+  { x = 60, y = 30, w = 10, h = 70}
+}
+
+TILES = {
+  TILE_001,
+  TILE_002
+}
 
 function Wall.create(lastwall)
   local self = setmetatable({}, Wall)
@@ -37,6 +55,11 @@ function Wall.create(lastwall)
   self.colorG = love.math.random(0,255)
   self.colorB = love.math.random(0,255)
 
+  self.tile = TILES[love.math.random(1,#TILES)]
+
+  --print(self.tile[2].x)
+
+
   return self
 end
 
@@ -52,7 +75,18 @@ end
 
 
 function Wall.draw(wall)
+  --love.graphics.setColor(wall.colorR/2, wall.colorG/2, wall.colorB/2)
+  --love.graphics.rectangle("fill",wall.x,wall.y,wall.width,wall.height)
 
-  love.graphics.setColor(wall.colorR, wall.colorG, wall.colorB)
-  love.graphics.rectangle("fill", wall.x , wall.y , wall.width , wall.height )
-end
+  for _,colider in ipairs(wall.tile) do
+
+    local rect_x = ((colider.x)/100 * love.graphics.getHeight()*0.5 )+ wall.x
+    local rect_y = ((colider.y)/100 * love.graphics.getHeight()*0.5 )+ wall.y
+    local rect_w = ((colider.w)/100 * love.graphics.getHeight()*0.5 )
+    local rect_h = ((colider.h)/100 * love.graphics.getHeight()*0.5 )
+
+
+     love.graphics.setColor(wall.colorR, wall.colorG, wall.colorB)
+     love.graphics.rectangle("fill",rect_x,rect_y,rect_w,rect_h)
+   end
+ end
