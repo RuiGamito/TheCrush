@@ -72,7 +72,7 @@ function Wall.checkPlayerWallCollision(agr_wall)
        rect_y + rect_h >= world.PLAYER.Y and
        rect_y < world.PLAYER.Y + world.PLAYER.HEIGHT then
 
-        
+
          if     world.PLAYER.X < rect_x and
                 world.PLAYER.X + world.PLAYER.WIDTH > rect_x and
                 world.PLAYER.Y + world.PLAYER.HEIGHT > rect_y and
@@ -101,8 +101,8 @@ function Wall.checkPlayerWallCollision(agr_wall)
 end
 
 function Wall.draw(wall)
-  love.graphics.setColor(wall.colorR/2, wall.colorG/2, wall.colorB/2)
-  love.graphics.rectangle("line",wall.x,wall.y,wall.width,wall.height)
+  --love.graphics.setColor(wall.colorR/2, wall.colorG/2, wall.colorB/2)
+  --love.graphics.rectangle("line",wall.x,wall.y,wall.width,wall.height)
 
   for _,colider in ipairs(wall.tile) do
 

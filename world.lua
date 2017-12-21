@@ -27,7 +27,7 @@ function world.init()
   world.DYNAMIC_BLOCK_Y = true
   world.BLOCK_SPEED = 2.4
   world.MESSAGE = ""
-  world.BLOCK_SPAWN_PROBABILITY = 0.00
+  world.BLOCK_SPAWN_PROBABILITY = 0.01
   world.WIDTH = love.graphics.getWidth()
   world.HEIGHT = love.graphics.getHeight()
   world.PLAYER = Player.create()
