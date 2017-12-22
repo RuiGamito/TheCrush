@@ -1,3 +1,4 @@
+require("colors")
 require("player")
 require("block")
 require("catui")
@@ -11,8 +12,6 @@ world = {}
 -- GAME STATES
 GAMEMENU = 0
 PLAYING = 1
-
-
 
 -- GAME CICLE
 
@@ -104,12 +103,13 @@ function world.load()
   addButtons()
 end
 
-function world.update()
+function world.update(dt)
 
   world.BLOCK_SPEED = world.BLOCK_SPEED_BASE + WALL_NUM/4
 
   Background.update()
   mgr:update(dt)
+  pSystem:update(dt)
 
   if PLAYER_STATUS == PLAYER_CRUSHED then
 
@@ -431,7 +431,7 @@ function world.drawInfo()
 end
 
 function world.drawParticles()
-  love.graphics.setColor(255, 100, 100)
+  love.graphics.setColor(255, 255, 255)
   love.graphics.draw(pSystem, PART[1], PART[2])
 end
 

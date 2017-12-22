@@ -1,4 +1,6 @@
+require("colors")
 require("world")
+
 
 love.window.setMode(800, 600, {resizable=false, highdpi=true, borderless=false, vsync=true} )
 
@@ -39,22 +41,31 @@ function love.load()
   world.load()
 
   -- PARTICLE System
-  local img = love.graphics.newImage("parts.png")
-  pSystem = love.graphics.newParticleSystem(img, 32)
-  pSystem:setSizes(0.1)
-  pSystem:setParticleLifetime(1,2)
+  local img = love.graphics.newImage("img/square.png")
+
+  pSystem = love.graphics.newParticleSystem(img, 1000)
+  pSystem:setSizes(0.2)
+  pSystem:setParticleLifetime(0,2)
+  pSystem:setSpinVariation(1)
+  pSystem:setSpin(0,20)
+  pSystem:setAreaSpread("normal",60,60)
+
+  pSystem:setColors(
+    0,255,159,255,
+    0,184,255,255,
+    0,30,255,255,
+    189,0,255,255,
+    214,0,255,255
+  )
   --this will make your particals shoot out in diffrent directions
   --this will make your particles look much better
   --you can play with the numbers to make them move in diffrent directions
-  pSystem:setLinearAcceleration(-40, -40, 0, 0)
+  pSystem:setLinearAcceleration(-120, -120, 120, 120)
 end
-
 
 function love.update(dt)
   FRAME_COUNT = FRAME_COUNT+1
-  world.update()
-  pSystem:update(dt)
-  --updateLevelStats()
+  world.update(dt)
 end
 
 function love.draw()
