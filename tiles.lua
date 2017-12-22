@@ -3,13 +3,10 @@ TILE_001 = {
     rotate = false,
     top = true,
     bottom = true,
-    weight = 100,
-    difficulty = 1
+    weight = 1
   },
   rect = {
    { x = 15, y = 28, w = 17, h = 17},
-
-
   }
 }
 
@@ -18,8 +15,7 @@ TILE_002 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100,
-    difficulty = 1
+    weight = 1
   },
   rect = {
    { x = 45, y = 5 , w = 5, h = 5},
@@ -31,8 +27,7 @@ TILE_003 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100,
-    difficulty = 1
+    weight = 1
   },
   rect = {
   { x = 76, y = 5 , w = 5, h = 20},
@@ -44,12 +39,10 @@ TILE_004 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100,
-    difficulty = 1
+    weight = 1
   },
   rect = {
      { x = 10, y = 00, w = 15, h = 15},
-
   }
 }
 
@@ -58,11 +51,10 @@ TILE_005 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100
+    weight = 1
   },
   rect = {
      { x = 10, y = 20, w = 10, h = 19},
-
   }
 }
 
@@ -71,13 +63,10 @@ TILE_006 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100,
-    difficulty = 1
+    weight = 1
   },
   rect = {
     { x = 23, y = 45, w = 10, h = 20},
-
-
   }
 }
 
@@ -86,8 +75,7 @@ TILE_007 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100,
-    difficulty = 10
+    weight = 1
   },
   rect = {
       { x = 10, y = 67, w = 10, h = 12},
@@ -101,8 +89,7 @@ TILE_008 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100,
-    difficulty = 30
+    weight = 1
   },
   rect = {
    { x = 30, y = 10, w = 9, h = 9},
@@ -118,7 +105,7 @@ TILE_009 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100
+    weight = 1
   },
   rect = {
    { x = 20, y = 5, w = 15, h = 15},
@@ -131,7 +118,7 @@ TILE_010 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100
+    weight = 1
   },
   rect = {
    { x = 10, y = 15, w = 5, h = 20},
@@ -145,7 +132,7 @@ TILE_011 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100
+    weight = 1
   },
   rect = {
    { x = 15, y = 25, w = 10, h = 10},
@@ -158,7 +145,7 @@ TILE_012 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100
+    weight = 1
   },
   rect = {
    { x = 13, y = 9, w = 8, h = 13},
@@ -171,7 +158,7 @@ TILE_013 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100
+    weight = 1
   },
   rect = {
    { x = 5, y = 10, w = 5, h = 5},
@@ -184,7 +171,7 @@ TILE_014 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100
+    weight = 1
   },
   rect = {
    { x = 5, y = 7, w = 5, h = 5},
@@ -198,7 +185,7 @@ TILE_015 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100
+    weight = 1
   },
   rect = {
    { x = 23, y = 10, w = 14, h = 14},
@@ -211,7 +198,7 @@ TILE_016 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100
+    weight = 1
   },
   rect = {
    { x = 12, y = 12, w = 12, h = 12},
@@ -224,7 +211,7 @@ TILE_017 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100
+    weight = 1
   },
   rect = {
    { x = 8, y = 7, w = 16, h = 25},
@@ -236,7 +223,7 @@ TILE_018 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100
+    weight = 1
   },
   rect = {
    { x = 47, y = 13, w = 8, h = 8},
@@ -248,7 +235,7 @@ TILE_019 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100
+    weight = 1
   },
   rect = {
   { x = 20, y = 22, w = 5, h = 5},
@@ -260,7 +247,7 @@ TILE_020 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100
+    weight = 1
   },
   rect = {
    { x = 50, y = 13, w = 13, h = 5},
@@ -284,7 +271,7 @@ TILE_022 = {
     rotate = true,
     top = true,
     bottom = true,
-    weight = 100
+    weight = 1
   },
   rect = {
   { x = 75, y = 13, w = 15, h = 4},
