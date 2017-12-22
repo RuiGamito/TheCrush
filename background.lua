@@ -52,10 +52,10 @@ function Background.loadNewImage()
   table.insert(images, image)
   last_x = last_x + image.img:getWidth()
 
-  print("Loaded images:", #loaded_images)
-  print("Current Image", next_image)
+  --print("Loaded images:", #loaded_images)
+  --print("Current Image", next_image)
   next_image = next_image % #loaded_images + 1
-  print("Next Image", next_image)
+  --print("Next Image", next_image)
 end
 
 function Background.draw()
