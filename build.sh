@@ -2,7 +2,7 @@
 
 APK_TOOL_DIR=./tools/StartGamedev-170112-osx
 BUILD_APK=make-apk.command
-FILES="*.lua parts.png catui font img"
+FILES="*.lua parts.png catui font img audio"
 LOVE_FILE=game.love
 APK_FILE=game.apk
 
