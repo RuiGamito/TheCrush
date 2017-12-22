@@ -9,13 +9,6 @@ local loaded_images = {}
 local images = {}
 local speed = 5
 
-function Background.create()
-  local self = setmetatable({}, Background)
-  self.x = love.graphics.getWidth()
-  self.image = love.graphics.newImage("img/start_copy.jpg")
-  return self
-end
-
 function Background.load()
    -- other things
    images_fs = {
