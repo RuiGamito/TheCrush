@@ -99,6 +99,9 @@ function Block.expand(block)
       pSystem:emit(32)
       PART[1] = block.x_coord + block.width/2
       PART[2] = love.graphics.getHeight()
+      if PLAYER_POINTS == nil then
+        PLAYER_POINTS = 0
+      end
       PLAYER_POINTS = PLAYER_POINTS + 1
       block.status = 2
     end

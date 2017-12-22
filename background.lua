@@ -4,6 +4,7 @@ Background={
 
 local images = {}
 local speed = 5
+local loaded_images = {}
 
 function Background.load()
 
@@ -24,17 +25,16 @@ function Background.load()
      "img/014.png"
    }
 
+   for id,im in ipairs(images_fs) do
+     loaded_images[id] = love.graphics.newImage(im)
+   end
+
    Background.reset()
 end
 
 function Background.reset()
   last_x = 0
   next_image = 1
-  loaded_images = {}
-
-  for id,im in ipairs(images_fs) do
-    loaded_images[id] = love.graphics.newImage(im)
-  end
 end
 
 function Background.loadNewImage()

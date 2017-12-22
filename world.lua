@@ -4,6 +4,7 @@ require("catui")
 require("buttons")
 require("walls")
 require("background")
+require("menu_back")
 
 world = {}
 
@@ -18,6 +19,9 @@ PLAYING = 1
 -- Initialize the world
 function world.init()
   print("Initializing world...")
+
+  music = love.audio.newSource("audio/daft.mp3")
+  music:setLooping(true)
 
   world.BLOCKS = {}
   world.WALLS = {}
@@ -53,10 +57,16 @@ function world.init()
   -- Set the BLOCK_WAIT var
   BLOCK_WAIT = 10
   BLOCK_WAIT_tmp = BLOCK_WAIT
+
+  PLAYER_POINTS = 0
+
+
+
 end
 
 function world.play()
 
+  music:play()
   world.BLOCKS = {}
   world.WALLS = {}
 
@@ -83,9 +93,9 @@ function world.play()
   PLAYER_POINTS = 0
 
   GAME_STATE = PLAYING
-
   Player.reset(world.PLAYER)
   Background.reset()
+
 end
 
 function world.load()
@@ -103,8 +113,6 @@ function world.update()
 
   if PLAYER_STATUS == PLAYER_CRUSHED then
 
-    -- love.graphics.setColor(255, 0, 0)
-    -- love.graphics.print("Touch here to play again! ;)", 10, love.graphics.getHeight()/2, 0, 4, 4)
     local b = world.buttons["play_again"]
     if not b:getVisible() then
       b:setVisible(true)
@@ -428,17 +436,18 @@ function world.drawParticles()
 end
 
 function world.drawButtons()
-  -- remove not visible elements from UIManager
-  for _,element in pairs(mgrContainer:getChildren()) do
-    if not element:getVisible() then
-      mgrContainer:removeChild(element)
-    end
-  end
 
   -- add visible buttons to the UIManager
   for _,button in pairs(world.buttons) do
     if button:getVisible() and not mgrContainer:hasChildren(button) then
       mgrContainer:addChild(button)
+    end
+  end
+
+  -- remove not visible elements from UIManager
+  for _,element in pairs(mgrContainer:getChildren()) do
+    if not element:getVisible() then
+      mgrContainer:removeChild(element)
     end
   end
 end
