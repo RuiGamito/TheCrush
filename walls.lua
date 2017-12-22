@@ -43,6 +43,9 @@ function Wall.createTileList(top) -- 0 bottom; 1 top
   list = {}
   for _,tile in ipairs(TILES) do
     local weight = tile.meta.weight
+    if tile.meta.difficulty then
+      weight = weight * Wall.calculateDifficulty(tile.meta.difficulty,top)
+    end
     while weight > 0 do
         if (top == 0 and tile.meta.bottom) or (top == 1 and tile.meta.top) then
           local rect = tile.rect
@@ -57,6 +60,12 @@ function Wall.createTileList(top) -- 0 bottom; 1 top
     end
   end
   return list
+end
+
+function Wall.difficulty(difficulty,top)
+  local current = WALL_NUM/2 - top/2
+  local difference = math.abs(current-difficulty)
+  return (100-3*difference)
 end
 
 function Wall.rotate(rect)

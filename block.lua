@@ -4,6 +4,7 @@ Block = {
   x_coord = nil,
   y_coord = nil,
   height = nil,
+  direction_height = nil,
   width = nil,
   pulse_up = true,
   pulse_down = true,
@@ -46,6 +47,7 @@ function Block.create()
   end
 
   self.height = Block.DEFAULT_HEIGHT
+  self.direction_height = self.height / 8
 
   if world.DYNAMIC_BLOCK_WIDTH then
     self.width = love.math.random(Block.DEFAULT_WIDTH/2,Block.DEFAULT_WIDTH*2)
@@ -172,19 +174,21 @@ function Block.draw(block)
     end
   end
 
+  love.graphics.setColor(PALETE_COLOR_1.R,PALETE_COLOR_1.G,PALETE_COLOR_1.B)
+  love.graphics.rectangle("fill", block.x_coord , block.y_coord  , block.width , block.height )
 
   local x = block.x_coord - pulsing_left + distortH
   local y = block.y_coord - pulsing_up + distortV
   local w = block.width + pulsing_left + pulsing_right - (2*distortH)
   local h = block.height + pulsing_up + pulsing_down - (2*distortV)
 
-  love.graphics.setColor(PALETE_COLOR_1.R,PALETE_COLOR_1.G,PALETE_COLOR_1.B)
+  love.graphics.setColor(PALETE_COLOR_1.R,PALETE_COLOR_1.G,PALETE_COLOR_1.B,100)
   love.graphics.rectangle("fill", x , y , w , h )
 
   if(block.expand == 0) then
-      love.graphics.rectangle("fill", x , y + h + h/8 , w , h/8 )
+      love.graphics.rectangle("fill", x , y + h + block.direction_height , w , block.direction_height )
   end
   if(block.expand == 1) then
-    love.graphics.rectangle("fill", x , y - h*2/8 , w , h/8)
+    love.graphics.rectangle("fill", x , y - block.direction_height -block.direction_height , w , block.direction_height)
   end
 end
