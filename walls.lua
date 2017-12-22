@@ -71,7 +71,7 @@ function Wall.createTileList(top) -- 0 bottom; 1 top
   return list
 end
 
-function Wall.difficulty(difficulty,top)
+function Wall.calculateDifficulty(difficulty,top)
   local current = WALL_NUM/2 - top/2
   local difference = math.abs(current-difficulty)
   return (100-3*difference)
@@ -181,8 +181,8 @@ function Wall.checkPlayerWallCollision(agr_wall)
 end
 
 function Wall.draw(wall)
-    love.graphics.setColor(PALETE_COLOR_5.R,PALETE_COLOR_5.G,PALETE_COLOR_5.B)
-    love.graphics.rectangle("line",wall.x,wall.y,wall.width,wall.height)
+    --love.graphics.setColor(PALETE_COLOR_5.R,PALETE_COLOR_5.G,PALETE_COLOR_5.B)
+    --love.graphics.rectangle("line",wall.x,wall.y,wall.width,wall.height)
 
   for _,colider in ipairs(wall.tile) do
 
@@ -193,6 +193,12 @@ function Wall.draw(wall)
 
      love.graphics.setColor(PALETE_COLOR_4.R,PALETE_COLOR_4.G,PALETE_COLOR_4.B)
      love.graphics.rectangle("fill",rect_x,rect_y,rect_w,rect_h)
+
+     love.graphics.setColor(PALETE_COLOR_4.R+50,PALETE_COLOR_4.G+50,PALETE_COLOR_4.B+50)
+     love.graphics.rectangle("fill",rect_x-2,rect_y-2,4,rect_h+4)
+     love.graphics.rectangle("fill",rect_x-2,rect_y-2,rect_w+4,4)
+     love.graphics.rectangle("fill",rect_x+rect_w-2,rect_y-2,4,rect_h+4)
+     love.graphics.rectangle("fill",rect_x-2,rect_y+rect_h-2,rect_w+4,4)
 
      VELOCITY_X = wall.drag_driection_x*love.math.random(0,5)
      VELOCITY_Y = wall.drag_driection_y*love.math.random(0,5)

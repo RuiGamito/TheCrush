@@ -176,6 +176,11 @@ function Block.draw(block)
 
   love.graphics.setColor(PALETE_COLOR_1.R,PALETE_COLOR_1.G,PALETE_COLOR_1.B)
   love.graphics.rectangle("fill", block.x_coord , block.y_coord  , block.width , block.height )
+  love.graphics.setColor(PALETE_COLOR_1.R+50,PALETE_COLOR_1.G+50,PALETE_COLOR_1.B+50)
+  love.graphics.rectangle("fill",block.x_coord-2,block.y_coord-2,4,block.height+4)
+  love.graphics.rectangle("fill",block.x_coord-2,block.y_coord-2,block.width+4,4)
+  love.graphics.rectangle("fill",block.x_coord+block.width-2,block.y_coord-2,4,block.height+4)
+  love.graphics.rectangle("fill",block.x_coord-2,block.y_coord+block.height-2,block.width+4,4)
 
   local x = block.x_coord - pulsing_left + distortH
   local y = block.y_coord - pulsing_up + distortV

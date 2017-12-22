@@ -28,6 +28,7 @@ function world.init()
   world.DYNAMIC_BLOCK_WIDTH = false
   world.DYNAMIC_BLOCK_Y = true
   world.BLOCK_SPEED = 2.4
+  world.BLOCK_SPEED_BASE = 2.4
   world.MESSAGE = ""
   world.BLOCK_SPAWN_PROBABILITY = 0.01
   world.WIDTH = love.graphics.getWidth()
@@ -56,6 +57,8 @@ function world.play()
   world.BLOCKS = {}
   world.WALLS = {}
 
+  world.BLOCK_SPEED = world.BLOCK_SPEED_BASE
+  WALL_NUM = 0
   -- create the block table
   initial_block = Block.create()
   initial_block.crush_trigger = love.math.random(0,world.CRUSH_BASE_VALUE)*2
@@ -92,6 +95,8 @@ function world.load()
 end
 
 function world.update()
+
+  world.BLOCK_SPEED = world.BLOCK_SPEED_BASE + WALL_NUM/4
 
   Background.update()
   mgr:update(dt)
