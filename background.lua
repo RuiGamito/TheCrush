@@ -46,9 +46,6 @@ function Background.loadNewImage()
     x = last_x,
     y = 0
   }
-
-  print(loaded_images[next_image])
-
   table.insert(images, image)
   last_x = last_x + image.img:getWidth()
 
