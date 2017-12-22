@@ -61,8 +61,16 @@ function Block.create()
 
   if world.EXPAND_DIRECTION==Block.EXPAND_RANDOM then
     self.expand = love.math.random(0,1)
+
+    if(self.y_coord < love.graphics.getHeight()*0.15) then
+        self.expand = Block.EXPAND_DOWN
+    end
+    if(self.y_coord > love.graphics.getHeight()-love.graphics.getHeight()*0.15) then
+        self.expand = Block.EXPAND_UP
+    end
+
   else
-    self.expand = world.EXPAND_DIRECTION
+    self.expand = world.EXPAND_RANDOM
   end
 
 
