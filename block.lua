@@ -190,18 +190,34 @@ function Block.draw(block)
   love.graphics.rectangle("fill",block.x_coord+block.width-2,block.y_coord-2,4,block.height+4)
   love.graphics.rectangle("fill",block.x_coord-2,block.y_coord+block.height-2,block.width+4,4)
 
-  local x = block.x_coord - pulsing_left + distortH
-  local y = block.y_coord - pulsing_up + distortV
-  local w = block.width + pulsing_left + pulsing_right - (2*distortH)
-  local h = block.height + pulsing_up + pulsing_down - (2*distortV)
+  local x = block.x_coord - pulsing_left
+  local y = block.y_coord - pulsing_up
+  local w = block.width + pulsing_left + pulsing_right
+  local h = block.height + pulsing_up + pulsing_down
 
   love.graphics.setColor(PALETE_COLOR_1.R,PALETE_COLOR_1.G,PALETE_COLOR_1.B,100)
   love.graphics.rectangle("fill", x , y , w , h )
 
   if(block.expand == 0) then
+    if block.crush_trigger > 100 then
       love.graphics.rectangle("fill", x , y + h + block.direction_height , w , block.direction_height )
+    end
+    if block.crush_trigger > 200 then
+      love.graphics.rectangle("fill", x , y + h + 3 * block.direction_height , w , block.direction_height )
+    end
+    if  block.crush_trigger > 300 then
+      love.graphics.rectangle("fill", x , y + h + 5 * block.direction_height , w , block.direction_height )
+    end
   end
   if(block.expand == 1) then
-    love.graphics.rectangle("fill", x , y - block.direction_height -block.direction_height , w , block.direction_height)
+    if block.crush_trigger > 100 then
+      love.graphics.rectangle("fill", x , y - 2 * block.direction_height , w , block.direction_height)
+    end
+    if block.crush_trigger > 200 then
+      love.graphics.rectangle("fill", x , y - 4 * block.direction_height , w , block.direction_height)
+    end
+    if  block.crush_trigger > 300 then
+      love.graphics.rectangle("fill", x , y - 6 * block.direction_height , w , block.direction_height)
+    end
   end
 end

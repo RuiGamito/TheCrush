@@ -6,6 +6,7 @@ Wall = {
   height = 0,
   width = 0,
   tile = nil,
+  block = nil,
   drag_x = 0,
   drag_y = 0,
   drag_driection_x = 0,
@@ -43,7 +44,13 @@ function Wall.create(lastwall)
 
   local tileList = Wall.createTileList(top)
 
-  self.tile = tileList[love.math.random(1,#tileList)]
+  local chosen_tile = tileList[love.math.random(1,#tileList)]
+  if chosen_tile.rect then
+    self.tile = chosen_tile.rect
+  end
+  if chosen_tile.block then
+    self.block = chosen_tile.block
+  end
 
   return self
 end
@@ -57,12 +64,16 @@ function Wall.createTileList(top) -- 0 bottom; 1 top
     end
     while weight > 0 do
         if (top == 0 and tile.meta.bottom) or (top == 1 and tile.meta.top) then
-          local rect = tile.rect
+          local rectO = tile.rect
           if tile.meta.rotate then
-            rect = Wall.rotate(rect)
-              table.insert(list,rect)
+            rectO = Wall.rotate(rectO)
+            tileO = {
+              rect = rectO,
+              block = tile.block
+            }
+              table.insert(list,tileO)
           else
-            table.insert(list,tile.rect)
+            table.insert(list,tile)
           end
         end
       weight = weight -1
@@ -200,8 +211,8 @@ function Wall.draw(wall)
      love.graphics.rectangle("fill",rect_x+rect_w-2,rect_y-2,4,rect_h+4)
      love.graphics.rectangle("fill",rect_x-2,rect_y+rect_h-2,rect_w+4,4)
 
-     VELOCITY_X = wall.drag_driection_x*love.math.random(0,5)
-     VELOCITY_Y = wall.drag_driection_y*love.math.random(0,5)
+     VELOCITY_X = wall.drag_driection_x*love.math.random(0,1)
+     VELOCITY_Y = wall.drag_driection_y*love.math.random(0,1)
      wall.drag_x = wall.drag_x + VELOCITY_X
      wall.drag_y = wall.drag_y + VELOCITY_Y
      if wall.drag_x*wall.drag_driection_x >= 20 then
