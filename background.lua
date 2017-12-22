@@ -2,12 +2,12 @@ Background={
   x=0
 }
 
-local last_image = 0
+local next_image = 1
 local last_x = 0
 --local width = 2650
 local loaded_images = {}
 local images = {}
-local speed = 1
+local speed = 5
 
 function Background.create()
   local self = setmetatable({}, Background)
@@ -41,32 +41,43 @@ function Background.load()
 end
 
 function Background.loadNewImage()
-  last_image = last_image + 1 % #loaded_images
   local image = {
-    img = loaded_images[last_image],
+    img = loaded_images[next_image],
     x = last_x,
     y = 0
   }
+
+  print(loaded_images[next_image])
+
   table.insert(images, image)
-  last_x = last_x + loaded_images[last_image]:getWidth()
+  last_x = last_x + image.img:getWidth()
+
+  print("Loaded images:", #loaded_images)
+  print("Current Image", next_image)
+  next_image = next_image % #loaded_images + 1
+  print("Next Image", next_image)
 end
 
 function Background.draw()
-  love.graphics.setColor(100,100,100)
-  love.graphics.clear()
-  for _,image in ipairs(images) do
-    love.graphics.draw(image.img, image.x, 0, 0, 1, 1)
+  if GAME_STATE == PLAYING then
+    love.graphics.setColor(100,100,100)
+    love.graphics.clear()
+    for _,image in ipairs(images) do
+      love.graphics.draw(image.img, image.x, 0, 0, 1, 1)
+    end
   end
 end
 
 function Background.update()
-  if  last_x < love.graphics.getWidth()  then
-    Background.loadNewImage()
-  end
+  if GAME_STATE == PLAYING then
+    if  last_x < love.graphics.getWidth()  then
+      Background.loadNewImage()
+    end
 
-  for _,image in ipairs(images) do
-    image.x = image.x - speed
-  end
+    for _,image in ipairs(images) do
+      image.x = image.x - speed
+    end
 
-  last_x = last_x - speed
+    last_x = last_x - speed
+  end
 end
