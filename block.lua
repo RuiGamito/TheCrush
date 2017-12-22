@@ -182,9 +182,9 @@ function Block.draw(block)
     end
   end
 
-  love.graphics.setColor(PALETE_COLOR_1.R,PALETE_COLOR_1.G,PALETE_COLOR_1.B)
+  love.graphics.setColor(CANON_COLOR.R,CANON_COLOR.G,CANON_COLOR.B)
   love.graphics.rectangle("fill", block.x_coord , block.y_coord  , block.width , block.height )
-  love.graphics.setColor(PALETE_COLOR_1.R+50,PALETE_COLOR_1.G+50,PALETE_COLOR_1.B+50)
+  love.graphics.setColor(CANON_COLOR.R+50,CANON_COLOR.G+50,CANON_COLOR.B+50)
   love.graphics.rectangle("fill",block.x_coord-2,block.y_coord-2,4,block.height+4)
   love.graphics.rectangle("fill",block.x_coord-2,block.y_coord-2,block.width+4,4)
   love.graphics.rectangle("fill",block.x_coord+block.width-2,block.y_coord-2,4,block.height+4)
@@ -195,7 +195,7 @@ function Block.draw(block)
   local w = block.width + pulsing_left + pulsing_right
   local h = block.height + pulsing_up + pulsing_down
 
-  love.graphics.setColor(PALETE_COLOR_1.R,PALETE_COLOR_1.G,PALETE_COLOR_1.B,100)
+  love.graphics.setColor(CANON_COLOR.R,CANON_COLOR.G,CANON_COLOR.B,100)
   love.graphics.rectangle("fill", x , y , w , h )
 
   if(block.expand == 0) then

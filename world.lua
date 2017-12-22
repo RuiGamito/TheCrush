@@ -320,35 +320,35 @@ pY5 = 0
 
 function world.drawPlayer()
 
-  love.graphics.setColor(PALETE_COLOR_3.R+50,PALETE_COLOR_3.G+50,PALETE_COLOR_3.B+50,150-3*iterate)
+  love.graphics.setColor(PLAYER_COLOR.R+50,PLAYER_COLOR.G+50,PLAYER_COLOR.B+50,150-3*iterate)
 
   love.graphics.rectangle("fill",pX1-2-2*iterate-pDrag,pY1-2-2*iterate,4,world.PLAYER.HEIGHT+4+4*iterate)
   love.graphics.rectangle("fill",pX1-2-2*iterate-pDrag,pY1-2-2*iterate,world.PLAYER.WIDTH+4+4*iterate,4)
   love.graphics.rectangle("fill",pX1+world.PLAYER.WIDTH-2+2*iterate-pDrag,pY1-2-2*iterate,4,world.PLAYER.HEIGHT+4+4*iterate)
   love.graphics.rectangle("fill",pX1-2-2*iterate-pDrag,pY1+world.PLAYER.HEIGHT-2+2*iterate,world.PLAYER.WIDTH+4+4*iterate,4)
 
-    love.graphics.setColor(PALETE_COLOR_3.R+50,PALETE_COLOR_3.G+50,PALETE_COLOR_3.B+50,150-3*iterate2)
+    love.graphics.setColor(PLAYER_COLOR.R+50,PLAYER_COLOR.G+50,PLAYER_COLOR.B+50,150-3*iterate2)
 
   love.graphics.rectangle("fill",pX2-2-2*iterate2-pDrag2,pY2-2-2*iterate2,4,world.PLAYER.HEIGHT+4+4*iterate2)
   love.graphics.rectangle("fill",pX2-2-2*iterate2-pDrag2,pY2-2-2*iterate2,world.PLAYER.WIDTH+4+4*iterate2,4)
   love.graphics.rectangle("fill",pX2+world.PLAYER.WIDTH-2+2*iterate2-pDrag2,pY2-2-2*iterate2,4,world.PLAYER.HEIGHT+4+4*iterate2)
   love.graphics.rectangle("fill",pX2-2-2*iterate2-pDrag2,pY2+world.PLAYER.HEIGHT-2+2*iterate2,world.PLAYER.WIDTH+4+4*iterate2,4)
 
-    love.graphics.setColor(PALETE_COLOR_3.R+50,PALETE_COLOR_3.G+50,PALETE_COLOR_3.B+50,150-3*iterate3)
+    love.graphics.setColor(PLAYER_COLOR.R+50,PLAYER_COLOR.G+50,PLAYER_COLOR.B+50,150-3*iterate3)
 
   love.graphics.rectangle("fill",pX3-2-2*iterate3-pDrag3,pY3-2-2*iterate3,4,world.PLAYER.HEIGHT+4+4*iterate3)
   love.graphics.rectangle("fill",pX3-2-2*iterate3-pDrag3,pY3-2-2*iterate3,world.PLAYER.WIDTH+4+4*iterate3,4)
   love.graphics.rectangle("fill",pX3+world.PLAYER.WIDTH-2+2*iterate3-pDrag3,pY3-2-2*iterate3,4,world.PLAYER.HEIGHT+4+4*iterate3)
   love.graphics.rectangle("fill",pX3-2-2*iterate3-pDrag3,pY3+world.PLAYER.HEIGHT-2+2*iterate3,world.PLAYER.WIDTH+4+4*iterate3,4)
 
-    love.graphics.setColor(PALETE_COLOR_3.R+50,PALETE_COLOR_3.G+50,PALETE_COLOR_3.B+50,150-3*iterate4)
+    love.graphics.setColor(PLAYER_COLOR.R+50,PLAYER_COLOR.G+50,PLAYER_COLOR.B+50,150-3*iterate4)
 
   love.graphics.rectangle("fill",pX4-2-2*iterate4-pDrag4,pY4-2-2*iterate4,4,world.PLAYER.HEIGHT+4+4*iterate4)
   love.graphics.rectangle("fill",pX4-2-2*iterate4-pDrag4,pY4-2-2*iterate4,world.PLAYER.WIDTH+4+4*iterate4,4)
   love.graphics.rectangle("fill",pX4+world.PLAYER.WIDTH-2+2*iterate4-pDrag4,pY4-2-2*iterate4,4,world.PLAYER.HEIGHT+4+4*iterate4)
   love.graphics.rectangle("fill",pX4-2-2*iterate4-pDrag4,pY4+world.PLAYER.HEIGHT-2+2*iterate4,world.PLAYER.WIDTH+4+4*iterate4,4)
 
-    love.graphics.setColor(PALETE_COLOR_3.R+50,PALETE_COLOR_3.G+50,PALETE_COLOR_3.B+50,150-3*iterate5)
+    love.graphics.setColor(PLAYER_COLOR.R+50,PLAYER_COLOR.G+50,PLAYER_COLOR.B+50,150-3*iterate5)
 
   love.graphics.rectangle("fill",pX5-2-2*iterate5-pDrag5,pY5-2-2*iterate5,4,world.PLAYER.HEIGHT+4+4*iterate5)
   love.graphics.rectangle("fill",pX5-2-2*iterate5-pDrag5,pY5-2-2*iterate5,world.PLAYER.WIDTH+4+4*iterate5,4)
@@ -361,11 +361,11 @@ function world.drawPlayer()
   pDrag4 = pDrag4 + world.BLOCK_SPEED/2
   pDrag5 = pDrag5 + world.BLOCK_SPEED/2
 
-  iterate = iterate   + 0.5
-  iterate2 = iterate2 + 0.5
-  iterate3 = iterate3 + 0.5
-  iterate4 = iterate4 + 0.5
-  iterate5 = iterate5 + 0.5
+  iterate = iterate   + 1
+  iterate2 = iterate2 + 1
+  iterate3 = iterate3 + 1
+  iterate4 = iterate4 + 1
+  iterate5 = iterate5 + 1
 
   if iterate >= 50 then
     iterate = 0
@@ -398,10 +398,10 @@ function world.drawPlayer()
     pY5 = world.PLAYER.Y
   end
 
-  love.graphics.setColor(PALETE_COLOR_3.R,PALETE_COLOR_3.G,PALETE_COLOR_3.B)
+  love.graphics.setColor(PLAYER_COLOR.R,PLAYER_COLOR.G,PLAYER_COLOR.B)
   love.graphics.rectangle("fill",world.PLAYER.X,world.PLAYER.Y,world.PLAYER.WIDTH,world.PLAYER.HEIGHT)
 
-  love.graphics.setColor(PALETE_COLOR_3.R+50,PALETE_COLOR_3.G+50,PALETE_COLOR_3.B+50)
+  love.graphics.setColor(PLAYER_COLOR.R+50,PLAYER_COLOR.G+50,PLAYER_COLOR.B+50)
   love.graphics.rectangle("fill",world.PLAYER.X-2,world.PLAYER.Y-2,4,world.PLAYER.HEIGHT+4)
   love.graphics.rectangle("fill",world.PLAYER.X-2,world.PLAYER.Y-2,world.PLAYER.WIDTH+4,4)
   love.graphics.rectangle("fill",world.PLAYER.X+world.PLAYER.WIDTH-2,world.PLAYER.Y-2,4,world.PLAYER.HEIGHT+4)

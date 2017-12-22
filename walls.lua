@@ -10,7 +10,11 @@ Wall = {
   drag_x = 0,
   drag_y = 0,
   drag_driection_x = 0,
-  drag_driection_y = 0
+  drag_driection_y = 0,
+  colorR = 0,
+  colorG = 0,
+  colorB = 0,
+  colorA = 255,
 }
 
 WALL_NUM = 0
@@ -51,6 +55,31 @@ function Wall.create(lastwall)
   if chosen_tile.block then
     self.block = chosen_tile.block
   end
+
+  -- color
+  chosen_Color = love.math.random(0,5)
+  if chosen_Color < 1 then
+    self.colorR = COLLIDER_COLOR_1.R
+    self.colorG = COLLIDER_COLOR_1.G
+    self.colorB = COLLIDER_COLOR_1.B
+  elseif chosen_Color < 2 then
+    self.colorR = COLLIDER_COLOR_2.R
+    self.colorG = COLLIDER_COLOR_2.G
+    self.colorB = COLLIDER_COLOR_2.B
+  elseif chosen_Color < 3 then
+    self.colorR = COLLIDER_COLOR_3.R
+    self.colorG = COLLIDER_COLOR_3.G
+    self.colorB = COLLIDER_COLOR_3.B
+  elseif chosen_Color < 4 then
+    self.colorR = COLLIDER_COLOR_4.R
+    self.colorG = COLLIDER_COLOR_4.G
+    self.colorB = COLLIDER_COLOR_4.B
+  elseif chosen_Color <= 5 then
+    self.colorR = COLLIDER_COLOR_5.R
+    self.colorG = COLLIDER_COLOR_5.G
+    self.colorB = COLLIDER_COLOR_5.B
+  end
+
 
   return self
 end
@@ -202,10 +231,10 @@ function Wall.draw(wall)
     local rect_w = ((colider.w)/100 * love.graphics.getHeight()*0.5 )
     local rect_h = ((colider.h)/100 * love.graphics.getHeight()*0.5 )
 
-     love.graphics.setColor(PALETE_COLOR_4.R,PALETE_COLOR_4.G,PALETE_COLOR_4.B)
+     love.graphics.setColor(wall.colorR,wall.colorG,wall.colorB)
      love.graphics.rectangle("fill",rect_x,rect_y,rect_w,rect_h)
 
-     love.graphics.setColor(PALETE_COLOR_4.R+50,PALETE_COLOR_4.G+50,PALETE_COLOR_4.B+50)
+     love.graphics.setColor(wall.colorR+50,wall.colorG+50,wall.colorB+50)
      love.graphics.rectangle("fill",rect_x-2,rect_y-2,4,rect_h+4)
      love.graphics.rectangle("fill",rect_x-2,rect_y-2,rect_w+4,4)
      love.graphics.rectangle("fill",rect_x+rect_w-2,rect_y-2,4,rect_h+4)
@@ -222,7 +251,7 @@ function Wall.draw(wall)
        wall.drag_driection_y = -1*wall.drag_driection_y
      end
 
-     love.graphics.setColor(PALETE_COLOR_4.R,PALETE_COLOR_4.G,PALETE_COLOR_4.B, 100)
+     love.graphics.setColor(wall.colorR,wall.colorG,wall.colorB, 100)
      love.graphics.rectangle("fill",rect_x+wall.drag_x,rect_y+wall.drag_y,rect_w,rect_h)
 
    end
