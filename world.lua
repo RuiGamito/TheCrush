@@ -5,7 +5,7 @@ require("catui")
 require("buttons")
 require("walls")
 require("background")
-require("menu_back")
+--require("menu_back")
 
 world = {}
 

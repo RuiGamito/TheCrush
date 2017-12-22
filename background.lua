@@ -5,6 +5,7 @@ Background={
 local images = {}
 local speed = 5
 local loaded_images = {}
+local squares = {}
 
 function Background.load()
 
@@ -17,6 +18,17 @@ function Background.load()
    end
 
    Background.reset()
+
+   local i = 10
+   while i > 0 do
+     local square = {
+       x = love.math.random(0,love.graphics.getWidth()),
+       y = love.graphics.getHeight()*0.1*i
+     }
+     table.insert(squares,square)
+     i = i - 1
+   end
+
 end
 
 function Background.reset()
@@ -63,9 +75,8 @@ function Background.draw()
   if bgX1 == nil then Background.startStuff() end
 
   if GAME_STATE == PLAYING then
-    love.graphics.setColor(255,255,255)
-    love.graphics.clear()
-    love.graphics.setColor(8,36,114)
+
+    love.graphics.setColor(32,17,72)
     love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
 
 
@@ -140,12 +151,28 @@ function Background.draw()
     if bgX15 < 0 then bgX15 = love.graphics.getHeight()*1.5 end
     if bgX16 < 0 then bgX16 = love.graphics.getHeight()*1.5 end
 
-
+    for _,square in ipairs(squares) do
+      love.graphics.setColor(251,60,178,150)
+      love.graphics.rectangle("fill",square.x,square.y-2,4,4)
+        love.graphics.setColor(251,60,178,75)
+      love.graphics.rectangle("fill",square.x-6,square.y-6,16,16)
+    end
   end
 end
 
 function Background.update()
   if GAME_STATE == PLAYING then
+
+    for _,square in ipairs(squares) do
+
+      if square.x<0 or square.x>love.graphics.getWidth() then
+        line = math.floor(love.math.random(0,10))
+        square.x = love.graphics.getWidth()
+        square.y = love.graphics.getHeight()*0.1*line
+      end
+      square.x = square.x - 10
+
+    end
 
     if  last_x < love.graphics.getWidth()  then
       Background.loadNewImage()
@@ -153,7 +180,6 @@ function Background.update()
 
     for _,image in ipairs(images) do
       image.x = image.x - speed
-      descrement = decrement - speed
     end
 
     last_x = last_x - speed
