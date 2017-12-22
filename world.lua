@@ -22,6 +22,7 @@ function world.init()
   world.BLOCKS = {}
   world.WALLS = {}
   num_blocks = 0
+  num_wall = 0
   world.TILE_SIZE = 50
 
   world.DYNAMIC_BLOCK_WIDTH = false
@@ -189,6 +190,14 @@ function world.update()
     if first.x_coord+first.height < 0 then
       table.remove(world.BLOCKS,1)
       num_blocks = num_blocks - 1
+    end
+  end
+
+  if num_wall > 1 then
+    local first = world.WALLS[1]
+    if first.x+first.height < 0 then
+      table.remove(world.WALLS,1)
+      num_wall = num_wall - 1
     end
   end
 
