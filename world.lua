@@ -111,11 +111,7 @@ function world.update()
       mgrContainer:addChild(b)
     end
 
-    if love.keyboard.isDown("space")  then
-      world.init()
-    else
-      return
-    end
+    return
   end
 
   -- create some keyboard events to control the player
