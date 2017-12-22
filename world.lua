@@ -50,6 +50,9 @@ function world.init()
   mgrContainer = mgr.rootCtrl.coreContainer
 
   GAME_STATE = GAMEMENU
+  -- Set the BLOCK_WAIT var
+  BLOCK_WAIT = 10
+  BLOCK_WAIT_tmp = BLOCK_WAIT
 end
 
 function world.play()
@@ -79,13 +82,10 @@ function world.play()
   -- Reset PLAYER_POINTS
   PLAYER_POINTS = 0
 
-  -- Set the BLOCK_WAIT var
-  BLOCK_WAIT = 10
-  BLOCK_WAIT_tmp = BLOCK_WAIT
-
   GAME_STATE = PLAYING
 
   Player.reset(world.PLAYER)
+  Background.reset()
 end
 
 function world.load()
@@ -174,7 +174,7 @@ function world.update()
 
     -- evaluate if tail block is completely on the screen (on the right)
     -- and if it is, spawn a new one
-    local last = world.BLOCKS[num_blocks]
+    local last = world.BLOCKS[#world.BLOCKS]
 
     local pos = last.x_coord+last.width
 
@@ -192,11 +192,16 @@ function world.update()
       table.remove(world.BLOCKS,1)
       num_blocks = num_blocks - 1
     end
+
+  else
+    table.insert(world.BLOCKS,Block.create())
+    num_blocks = num_blocks + 1
+    BLOCK_WAIT_tmp = BLOCK_WAIT
   end
 
   if num_wall > 1 then
-    local first = world.WALLS[1]
-    if first.x+first.height < 0 then
+    local first_wall = world.WALLS[1]
+    if first_wall.x+first_wall.height < 0 then
       table.remove(world.WALLS,1)
       num_wall = num_wall - 1
     end
