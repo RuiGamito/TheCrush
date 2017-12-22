@@ -97,14 +97,12 @@ function world.update()
 
   if PLAYER_STATUS == PLAYER_CRUSHED then
 
-    local ts = love.touch.getTouches()
-    for i, id in ipairs(ts) do
-      local x, y = love.touch.getPosition(id)
-      if y+100 > love.graphics.getHeight()/2 and
-          y-100 < love.graphics.getHeight()/2 and
-          x<500 then -- use string.getWidth() to get the lenght in pixels
-            world.init()
-          end
+    -- love.graphics.setColor(255, 0, 0)
+    -- love.graphics.print("Touch here to play again! ;)", 10, love.graphics.getHeight()/2, 0, 4, 4)
+    local b = world.buttons["play_again"]
+    if not b:getVisible() then
+      b:setVisible(true)
+      mgrContainer:addChild(b)
     end
 
     if love.keyboard.isDown("space")  then
@@ -116,8 +114,9 @@ function world.update()
 
   -- create some keyboard events to control the player
   if love.keyboard.isDown("right") then
-    if world.PLAYER.X+world.PLAYER_SPEED_X > 750 then
-      world.PLAYER.X = 750
+    local max_x = love.graphics.getWidth() - world.PLAYER.WIDTH
+    if world.PLAYER.X+world.PLAYER_SPEED_X > max_x then
+      world.PLAYER.X = max_x
     else
       world.PLAYER.X = world.PLAYER.X + world.PLAYER_SPEED_X
     end
@@ -291,16 +290,6 @@ function world.drawInfo()
   love.graphics.setColor(255, 0, 0)
   love.graphics.print("Crushes avoided: " .. PLAYER_POINTS, 10, 100, 0, 2, 2)
 
-  if PLAYER_STATUS == PLAYER_CRUSHED then
-    -- love.graphics.setColor(255, 0, 0)
-    -- love.graphics.print("Touch here to play again! ;)", 10, love.graphics.getHeight()/2, 0, 4, 4)
-    local b = world.buttons["play_again"]
-    if not b:getVisible() then
-      b:setVisible(true)
-      mgrContainer:addChild(b)
-    end
-  end
-
   -- Print the level message
   love.graphics.setColor(0, 255, 0)
   love.graphics.print(world.MESSAGE, 200, 200)
@@ -313,17 +302,17 @@ function world.drawParticles()
 end
 
 function world.drawButtons()
-  -- add visible buttons to the UIManager
-  for _,button in pairs(world.buttons) do
-    if button:getVisible() and not mgrContainer:hasChildren(button) then
-      mgrContainer:addChild(button)
-    end
-  end
-
   -- remove not visible elements from UIManager
   for _,element in pairs(mgrContainer:getChildren()) do
     if not element:getVisible() then
       mgrContainer:removeChild(element)
+    end
+  end
+
+  -- add visible buttons to the UIManager
+  for _,button in pairs(world.buttons) do
+    if button:getVisible() and not mgrContainer:hasChildren(button) then
+      mgrContainer:addChild(button)
     end
   end
 end
