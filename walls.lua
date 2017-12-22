@@ -5,7 +5,11 @@ Wall = {
   y = 0,
   height = 0,
   width = 0,
-  tile = nil
+  tile = nil,
+  drag_x = 0,
+  drag_y = 0,
+  drag_driection_x = 0,
+  drag_driection_y = 0
 }
 
 WALL_NUM = 0
@@ -15,6 +19,11 @@ function Wall.create(lastwall)
 
   self.height = love.graphics.getHeight()*0.5
   self.width = love.graphics.getHeight()*0.5
+
+  self.drag_x = 0
+  self.drag_y = 0
+  self.drag_driection_x = 1
+  self.drag_driection_y = 1
 
   local top = WALL_NUM%2
   WALL_NUM = WALL_NUM+1
@@ -182,8 +191,22 @@ function Wall.draw(wall)
     local rect_w = ((colider.w)/100 * love.graphics.getHeight()*0.5 )
     local rect_h = ((colider.h)/100 * love.graphics.getHeight()*0.5 )
 
-
      love.graphics.setColor(PALETE_COLOR_4.R,PALETE_COLOR_4.G,PALETE_COLOR_4.B)
      love.graphics.rectangle("fill",rect_x,rect_y,rect_w,rect_h)
+
+     VELOCITY_X = wall.drag_driection_x*love.math.random(0,5)
+     VELOCITY_Y = wall.drag_driection_y*love.math.random(0,5)
+     wall.drag_x = wall.drag_x + VELOCITY_X
+     wall.drag_y = wall.drag_y + VELOCITY_Y
+     if wall.drag_x*wall.drag_driection_x >= 20 then
+       wall.drag_driection_x = -1*wall.drag_driection_x
+     end
+     if wall.drag_y*wall.drag_driection_y >= 20 then
+       wall.drag_driection_y = -1*wall.drag_driection_y
+     end
+
+     love.graphics.setColor(PALETE_COLOR_4.R,PALETE_COLOR_4.G,PALETE_COLOR_4.B, 100)
+     love.graphics.rectangle("fill",rect_x+wall.drag_x,rect_y+wall.drag_y,rect_w,rect_h)
+
    end
  end
