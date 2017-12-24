@@ -5,7 +5,7 @@ require("catui")
 require("buttons")
 require("walls")
 require("background")
---require("menu_back")
+require("power_up")
 
 world = {}
 
@@ -59,6 +59,10 @@ function world.init()
 
   PLAYER_POINTS = 0
 
+  -- POWER UP RELATED VARS
+  POWERUPS = {}
+  PU_WAIT = 1000
+  PU_WAIT_tmp = PU_WAIT
 
 
 end
@@ -255,6 +259,16 @@ function world.update(dt)
       table.insert(world.WALLS,Wall.create(lastwall))
       table.insert(world.WALLS,Wall.create(lastwall))
       num_wall = num_wall + 2
+    end
+  end
+
+  if GAME_STATE == PLAYING then
+    if PU_WAIT_tmp < 0 then
+      table.insert(POWERUPS, PowerUp.createRandom())
+      print("powering")
+      PU_WAIT_tmp = PU_WAIT
+    else
+      PU_WAIT_tmp = PU_WAIT_tmp - 5
     end
   end
 end
