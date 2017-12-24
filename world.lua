@@ -13,6 +13,9 @@ world = {}
 GAMEMENU = 0
 PLAYING = 1
 
+numberOfTicks = 0
+delay = 100
+
 -- GAME CICLE
 
 -- Initialize the world
@@ -60,7 +63,7 @@ function world.init()
   PLAYER_SCORE = 0
 
   -- POWER UP RELATED VARS
-  POWERUPS = {}
+  world.POWERUPS = {}
   PU_WAIT = 1000
   PU_WAIT_tmp = PU_WAIT
 
@@ -83,6 +86,9 @@ function world.init()
   for id,im in ipairs(score_imgs) do
     loaded_score_imgs[id] = love.graphics.newImage(im)
   end
+
+  -- INIT the power ups
+  pu_random = love.graphics.newImage("img/power_ups/Random.png")
 
 end
 
@@ -281,9 +287,15 @@ function world.update(dt)
     end
   end
 
+  numberOfTicks = numberOfTicks + 1
+  for _, pu in ipairs(world.POWERUPS) do
+    pu.x = pu.x - 7
+    pu.y = (-20)*math.sin(0.02*(pu.x)) + 350
+    end
+
   if GAME_STATE == PLAYING then
     if PU_WAIT_tmp < 0 then
-      table.insert(POWERUPS, PowerUp.createRandom())
+      table.insert(world.POWERUPS, PowerUp.createRandom())
       print("powering")
       PU_WAIT_tmp = PU_WAIT
     else
@@ -300,6 +312,7 @@ function world.draw()
     world.drawInfo()
     world.drawParticles()
     world.drawBlocks()
+    world.drawPowerUps()
   end
   mgr:draw()
   world.drawButtons()
@@ -541,6 +554,13 @@ end
 function world.drawWalls()
   for _, wall in ipairs(world.WALLS) do
       Wall.draw(wall)
+  end
+end
+
+function world.drawPowerUps()
+  love.graphics.setColor(255, 255, 255, 255)
+  for _,pu in ipairs(world.POWERUPS) do
+    love.graphics.draw(pu_random,pu.x,pu.y,0,0.2)
   end
 end
 
