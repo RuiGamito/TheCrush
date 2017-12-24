@@ -57,13 +57,32 @@ function world.init()
   BLOCK_WAIT = 10
   BLOCK_WAIT_tmp = BLOCK_WAIT
 
-  PLAYER_POINTS = 0
+  PLAYER_SCORE = 0
 
   -- POWER UP RELATED VARS
   POWERUPS = {}
   PU_WAIT = 1000
   PU_WAIT_tmp = PU_WAIT
 
+  -- INIT the score images
+  score_imgs = {
+    "img/score/d1.png",
+    "img/score/d2.png",
+    "img/score/d3.png",
+    "img/score/d4.png",
+    "img/score/d5.png",
+    "img/score/d6.png",
+    "img/score/d7.png",
+    "img/score/d8.png",
+    "img/score/d9.png",
+    "img/score/d0.png",
+    "img/score/score.png"
+  }
+
+  loaded_score_imgs = {}
+  for id,im in ipairs(score_imgs) do
+    loaded_score_imgs[id] = love.graphics.newImage(im)
+  end
 
 end
 
@@ -92,8 +111,8 @@ function world.play()
   --local player = {300, 550, world.TILE_SIZE, world.TILE_SIZE}
   PLAYER_STATUS = PLAYER_SAFE
 
-  -- Reset PLAYER_POINTS
-  PLAYER_POINTS = 0
+  -- Reset PLAYER_SCORE
+  PLAYER_SCORE = 0
 
   GAME_STATE = PLAYING
   Player.reset(world.PLAYER)
@@ -435,13 +454,60 @@ end
 
 function world.drawInfo()
   -- Print the score
-  love.graphics.setColor(36, 248, 229)
-  love.graphics.print("Score: " .. PLAYER_POINTS, 10, 100, 0, 3, 3, 0, 0)
+  -- love.graphics.setColor(36, 248, 229)
+  -- love.graphics.print("Score: " .. PLAYER_SCORE, 10, 100, 0, 3, 3, 0, 0)
+  world.drawScore()
 
   -- Print the level message
   love.graphics.setColor(0, 255, 0)
   love.graphics.print(world.MESSAGE, 200, 200)
 
+end
+
+function world.drawScore()
+  love.graphics.setColor(36, 248, 229)
+  love.graphics.draw(loaded_score_imgs[11], -70, 20, 0, 0.4)
+
+  local score_table = world.processScore()
+  local offset = 70
+  local step = 40
+
+  for i,d in ipairs(score_table) do
+    love.graphics.draw(d, offset + i*step, 20, 0, 0.4)
+  end
+end
+
+function world.processScore()
+  local t = {}
+  local str_score = tostring(PLAYER_SCORE)
+  str_score:gsub(".",function(c) table.insert(t,c) end)
+
+  -- replace the elements
+  for i,e in ipairs(t) do
+    if e == "0" then
+      t[i] = loaded_score_imgs[10]
+    elseif e == "1" then
+      t[i] = loaded_score_imgs[1]
+    elseif e == "2" then
+      t[i] = loaded_score_imgs[2]
+    elseif e == "3" then
+      t[i] = loaded_score_imgs[3]
+    elseif e == "4" then
+      t[i] = loaded_score_imgs[4]
+    elseif e == "5" then
+      t[i] = loaded_score_imgs[5]
+    elseif e == "6" then
+      t[i] = loaded_score_imgs[6]
+    elseif e == "7" then
+      t[i] = loaded_score_imgs[7]
+    elseif e == "8" then
+      t[i] = loaded_score_imgs[8]
+    elseif e == "9" then
+      t[i] = loaded_score_imgs[9]
+    end
+  end
+
+  return t
 end
 
 function world.drawParticles()

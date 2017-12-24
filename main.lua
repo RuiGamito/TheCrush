@@ -23,7 +23,7 @@ LEVEL_SETTINGS = {
 FRAME_COUNT = 0
 
 function updateLevelStats()
-  if PLAYER_POINTS < LEVEL_SETTINGS[LEVEL][1] then
+  if PLAYER_SCORE < LEVEL_SETTINGS[LEVEL][1] then
     return
   else
     LEVEL = LEVEL + 1
@@ -57,9 +57,7 @@ function love.load()
     189,0,255,255,
     214,0,255,255
   )
-  --this will make your particals shoot out in diffrent directions
-  --this will make your particles look much better
-  --you can play with the numbers to make them move in diffrent directions
+
   pSystem:setLinearAcceleration(-120, -120, 120, 120)
 end
 
