@@ -139,14 +139,14 @@ function world.update(dt)
     if world.PLAYER.X-world.PLAYER_SPEED_X < 0 then
       world.PLAYER.X = 0
     else
-      world.PLAYER.X = world.PLAYER.X - world.PLAYER_SPEED_X
+      world.PLAYER.X = world.PLAYER.X - world.PLAYER_SPEED_X - 5
     end
   end
   if love.keyboard.isDown("up") then
-    if world.PLAYER.Y-world.PLAYER_SPEED_Y < 0 then
+    if world.PLAYER.Y-world.PLAYER_SPEED_X < 0 then
       world.PLAYER.Y = 0
     else
-      world.PLAYER.Y = world.PLAYER.Y - world.PLAYER_SPEED_Y
+      world.PLAYER.Y = world.PLAYER.Y - world.PLAYER_SPEED_X
     end
   end
   if love.keyboard.isDown("down") then
