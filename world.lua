@@ -153,7 +153,7 @@ function world.update(dt)
     if world.PLAYER.Y+world.PLAYER.HEIGHT+world.PLAYER_SPEED_Y > world.HEIGHT then
       world.PLAYER.Y = world.HEIGHT - world.PLAYER.HEIGHT
     else
-      world.PLAYER.Y = world.PLAYER.Y + world.PLAYER_SPEED_Y
+      world.PLAYER.Y = world.PLAYER.Y + world.PLAYER_SPEED_X
     end
   end
 
@@ -435,8 +435,8 @@ end
 
 function world.drawInfo()
   -- Print the score
-  love.graphics.setColor(255, 0, 0)
-  love.graphics.print("Crushes avoided: " .. PLAYER_POINTS, 10, 100, 0, 2, 2)
+  love.graphics.setColor(36, 248, 229)
+  love.graphics.print("Score: " .. PLAYER_POINTS, 10, 100, 0, 3, 3, 0, 0)
 
   -- Print the level message
   love.graphics.setColor(0, 255, 0)
