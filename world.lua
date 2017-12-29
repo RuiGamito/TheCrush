@@ -49,6 +49,7 @@ function world.init()
   world.PLAYER_SPEED_Y=3
   world.EXPAND_DIRECTION=Block.EXPAND_RANDOM
 
+
   -- Initialize buttons
   world.buttons = {}
 
@@ -290,12 +291,13 @@ function world.update(dt)
   numberOfTicks = numberOfTicks + 1
   for _, pu in ipairs(world.POWERUPS) do
     pu.x = pu.x - 7
-    pu.y = (-20)*math.sin(0.02*(pu.x)) + 350
+    pu.y = (-10)*math.sin(0.02*(pu.x)/2) + 350
     end
 
   if GAME_STATE == PLAYING then
     if PU_WAIT_tmp < 0 then
-      table.insert(world.POWERUPS, PowerUp.createRandom())
+      local pu = PowerUp.createRandom()
+      table.insert(world.POWERUPS, pu)
       print("powering")
       PU_WAIT_tmp = PU_WAIT
     else
@@ -560,7 +562,7 @@ end
 function world.drawPowerUps()
   love.graphics.setColor(255, 255, 255, 255)
   for _,pu in ipairs(world.POWERUPS) do
-    love.graphics.draw(pu_random,pu.x,pu.y,0,0.2)
+    love.graphics.draw(pu_random,pu.x,pu.y,0,0.13)
   end
 end
 
