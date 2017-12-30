@@ -25,6 +25,8 @@ function world.init()
   music = love.audio.newSource("audio/daft.mp3")
   music:setLooping(true)
 
+  nudge_src = "audio/bumpi.mp3"
+
   world.BLOCKS = {}
   world.WALLS = {}
   num_blocks = 0
@@ -199,6 +201,7 @@ function world.update(dt)
     end
   end
 
+  Player.move(world.PLAYER)
   Player.adjustPosition(world.PLAYER)
 
   if (world.PLAYER.X <= 0)  then

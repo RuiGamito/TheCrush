@@ -180,6 +180,8 @@ end
 
 function Wall.checkPlayerWallCollision(agr_wall)
 
+  local collision = false
+
   for index,agr_wall_colider in ipairs(agr_wall.tile) do
 
     local rect_x = (agr_wall_colider.x/100 * love.graphics.getHeight()*0.5 ) + agr_wall.x
@@ -197,24 +199,44 @@ function Wall.checkPlayerWallCollision(agr_wall)
                 world.PLAYER.X + world.PLAYER.WIDTH > rect_x and
                 world.PLAYER.Y + world.PLAYER.HEIGHT > rect_y and
                 world.PLAYER.Y < rect_y + rect_h then
-                    world.PLAYER.X = rect_x - world.PLAYER.WIDTH
+                    --world.PLAYER.TARGET_X = rect_x - 40
+                    --world.PLAYER.X = rect_x - world.PLAYER.WIDTH
+                    Player.setNudgeOffsetX(world.PLAYER,-200)
+                    collision = true
+
          elseif world.PLAYER.X + world.PLAYER.WIDTH > rect_x + rect_w and
                 world.PLAYER.X < rect_x + rect_w and
                 world.PLAYER.Y + world.PLAYER.HEIGHT > rect_y and
                 world.PLAYER.Y < rect_y + rect_h then
-                    world.PLAYER.X = rect_x + rect_w
+                    --world.PLAYER.X = rect_x + rect_w
+                    --world.PLAYER.TARGET_X = rect_x + 40
+                    Player.setNudgeOffsetX(world.PLAYER,100)
+                    collision = true
          end
 
          if     world.PLAYER.Y < rect_y and
                 world.PLAYER.Y + world.PLAYER.HEIGHT > rect_y and
                 world.PLAYER.X + world.PLAYER.WIDTH > rect_x and
                 world.PLAYER.X < rect_x + rect_w then
-                    world.PLAYER.Y = rect_y - world.PLAYER.HEIGHT
+                    --world.PLAYER.Y = rect_y - world.PLAYER.HEIGHT
+                    --world.PLAYER.TARGET_Y = rect_y - 40
+                    Player.setNudgeOffsetY(world.PLAYER,-100)
+                    collision = true
+
          elseif world.PLAYER.Y + world.PLAYER.HEIGHT > rect_y + rect_h and
                 world.PLAYER.Y < rect_y + rect_h and
                 world.PLAYER.X + world.PLAYER.WIDTH > rect_x and
                 world.PLAYER.X < rect_x + rect_w then
-                    world.PLAYER.Y = rect_y + rect_h
+                    --world.PLAYER.Y = rect_y + rect_h
+                    --world.PLAYER.TARGET_Y = rect_y + 40
+                    Player.setNudgeOffsetY(world.PLAYER,100)
+                    collision = true
+         end
+
+         if collision then
+           -- Create new source so that we can have multiple sounds simultaneously
+           -- Consider using SLAM in the future (https://love2d.org/wiki/SLAM)
+           love.audio.newSource(nudge_src, "static"):play()
          end
        end
   end
