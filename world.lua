@@ -298,10 +298,16 @@ function world.update(dt)
   end
 
   numberOfTicks = numberOfTicks + 1
-  for _, pu in ipairs(world.POWERUPS) do
-    pu.x = pu.x - 7
-    pu.y = (-10)*math.sin(0.02*(pu.x)/2) + 350
+  local tmp_powerups = world.POWERUPS
+  for idx, pu in ipairs(world.POWERUPS) do
+
+    if world.checkPlayerPowerUpCollision(pu) then
+      table.remove(tmp_powerups,idx)
+    else
+      pu.x = pu.x - 7
+      pu.y = (-10)*math.sin(0.02*(pu.x)/2) + 350
     end
+  end
 
   if GAME_STATE == PLAYING then
     if PU_WAIT_tmp < 0 then
@@ -350,6 +356,17 @@ function world.checkPlayerBlockCollision(block)
      block.x_coord + block.width > world.PLAYER.X and
      block.y_coord + block.height >= world.PLAYER.Y and
      block.y_coord < world.PLAYER.Y + world.PLAYER.HEIGHT then
+       return true
+  else
+       return false
+  end
+end
+
+function world.checkPlayerPowerUpCollision(power_up)
+  if power_up.x < world.PLAYER.X + world.PLAYER.WIDTH and
+     power_up.x + power_up.width > world.PLAYER.X and
+     power_up.y + power_up.height >= world.PLAYER.Y and
+     power_up.y < world.PLAYER.Y + world.PLAYER.HEIGHT then
        return true
   else
        return false
