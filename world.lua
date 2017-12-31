@@ -29,6 +29,7 @@ function world.init()
   gameover = love.audio.newSource("audio/gameover.mp3")
 
   nudge_src = "audio/bumpi.mp3"
+  crush_src = "audio/electricshock.mp3"
 
 
   world.BLOCKS = {}

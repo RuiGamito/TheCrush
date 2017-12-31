@@ -108,6 +108,7 @@ function Block.expand(block)
       end
       PLAYER_SCORE = PLAYER_SCORE + 1
       block.status = 2
+      love.audio.newSource(crush_src, "static"):play()
     end
   end
   if block.expand == Block.EXPAND_UP then
@@ -123,6 +124,7 @@ function Block.expand(block)
       PART[2] = 0
       PLAYER_SCORE = PLAYER_SCORE + 1
       block.status = 2
+      love.audio.newSource(crush_src, "static"):play()
     end
   end
 end
