@@ -25,7 +25,10 @@ function world.init()
   music = love.audio.newSource("audio/daft.mp3")
   music:setLooping(true)
 
+  gameover = love.audio.newSource("audio/gameover.mp3")
+
   nudge_src = "audio/bumpi.mp3"
+
 
   world.BLOCKS = {}
   world.WALLS = {}
@@ -97,6 +100,7 @@ end
 
 function world.play()
 
+  gameover:stop()
   music:play()
   world.BLOCKS = {}
   world.WALLS = {}
@@ -274,6 +278,8 @@ function world.update(dt)
 
       if world.checkPlayerBlockCollision(block) then
         PLAYER_STATUS = PLAYER_CRUSHED
+        music:stop()
+        gameover:play()
       end
 
   end -- for
