@@ -12,9 +12,7 @@ Block = {
   pulse_left = true,
   distortHorizontal = true,
   distortVertical = false,
-  crush_trigger = nil,
-
-  status = "something"
+  crush_trigger = nil
 }
 
 BLOCK_STATUS_IDLE =0
@@ -28,7 +26,7 @@ DISTORT_VALUE = 20
 
 Block.__index = Block
 
-Block.DEFAULT_WIDTH = 70
+Block.DEFAULT_WIDTH = 120
 Block.DEFAULT_HEIGHT = 50
 Block.EXPAND_DOWN = 0
 Block.EXPAND_UP = 1
@@ -40,14 +38,20 @@ function Block.create()
   -- {800, love.math.random(0,200), world.BLOCK_WIDTH, world.TILE_SIZE, love.math.random(0,1000)+800, 0}
   self.x_coord = love.graphics.getWidth()
 
+  self.height = Block.DEFAULT_HEIGHT
+  self.direction_height = self.height / 8
+
   if world.DYNAMIC_BLOCK_Y then
     self.y_coord = love.math.random(0,love.graphics.getHeight() - Block.DEFAULT_HEIGHT)
   else
-    self.y_coord = 0
+    if world.BLOCK_SPAWN_LOCATION == "top" then
+      self.y_coord = 0
+    elseif world.BLOCK_SPAWN_LOCATION == "bottom" then
+      self.y_coord = world.HEIGHT - self.height
+    end
   end
 
-  self.height = Block.DEFAULT_HEIGHT
-  self.direction_height = self.height / 8
+
 
   if world.DYNAMIC_BLOCK_WIDTH then
     self.width = love.math.random(Block.DEFAULT_WIDTH/2,Block.DEFAULT_WIDTH*2)

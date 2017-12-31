@@ -6,6 +6,7 @@ require("buttons")
 require("walls")
 require("background")
 require("power_up")
+require("zones")
 
 world = {}
 
@@ -36,23 +37,31 @@ function world.init()
   num_wall = 0
   world.TILE_SIZE = 50
 
-  world.DYNAMIC_BLOCK_WIDTH = false
-  world.DYNAMIC_BLOCK_Y = true
-  world.BLOCK_SPEED = 2.4
-  world.BLOCK_SPEED_BASE = 2.4
   world.MESSAGE = ""
-  world.BLOCK_SPAWN_PROBABILITY = 0.01
+
   world.WIDTH = love.graphics.getWidth()
   world.HEIGHT = love.graphics.getHeight()
   world.PLAYER = Player.create()
   world.PLAYER.WIDTH = world.TILE_SIZE
   world.PLAYER.HEIGHT = world.TILE_SIZE
+  world.PLAYER_SPEED_X=6
+  world.PLAYER_SPEED_Y=3
+
+  world.DYNAMIC_BLOCK_WIDTH = false
+  world.DYNAMIC_BLOCK_Y = true
+  world.BLOCK_SPAWN_LOCATION = "top" --"bottom" -- "top"
+  world.BLOCK_SPEED = 2.4
+  world.BLOCK_SPEED_BASE = 2.4
+  world.BLOCK_SPAWN_PROBABILITY = 0.01
+  world.EXPAND_DIRECTION = Block.EXPAND_RANDOM
+
+  world.GENERATE_WALLS = false
+
   world.CRUSH_BASE_VALUE = 500
   world.GRAVITY_X=0
   world.GRAVITY_Y=0
-  world.PLAYER_SPEED_X=6
-  world.PLAYER_SPEED_Y=3
-  world.EXPAND_DIRECTION=Block.EXPAND_RANDOM
+
+
 
 
   -- Initialize buttons
@@ -104,6 +113,9 @@ function world.play()
   music:play()
   world.BLOCKS = {}
   world.WALLS = {}
+  num_walls = 0
+
+  Zones.actZone_01()
 
   world.BLOCK_SPEED = world.BLOCK_SPEED_BASE
   WALL_NUM = 0
@@ -113,9 +125,11 @@ function world.play()
   table.insert(world.BLOCKS, initial_block)
   num_blocks = 1
 
-  table.insert(world.WALLS,Wall.create(nil))
-  table.insert(world.WALLS,Wall.create(nil))
-  num_wall = 2
+  if world.GENERATE_WALLS then
+    table.insert(world.WALLS,Wall.create(nil))
+    table.insert(world.WALLS,Wall.create(nil))
+    num_wall = 2
+  end
 
   -- Set the LEVEL
   LEVEL = 1
@@ -141,11 +155,12 @@ end
 
 function world.update(dt)
 
-  world.BLOCK_SPEED = world.BLOCK_SPEED_BASE + WALL_NUM/4
+  --world.BLOCK_SPEED = world.BLOCK_SPEED_BASE + WALL_NUM/4
 
   Background.update()
   mgr:update(dt)
   pSystem:update(dt)
+  Zones.updateZoneTrigger()
 
   if PLAYER_STATUS == PLAYER_CRUSHED then
 
@@ -288,12 +303,18 @@ function world.update(dt)
       wall.x = wall.x - world.BLOCK_SPEED
       world.checkPlayerWallCollision(wall)
   end -- for
-  if(#world.WALLS > 0) then
-    local lastwall = world.WALLS[#world.WALLS]
-    if(lastwall.x <= love.graphics.getHeight())then
-      table.insert(world.WALLS,Wall.create(lastwall))
-      table.insert(world.WALLS,Wall.create(lastwall))
-      num_wall = num_wall + 2
+  if world.GENERATE_WALLS then
+    if(#world.WALLS > 0) then
+      local lastwall = world.WALLS[#world.WALLS]
+      if(lastwall.x <= love.graphics.getHeight())then
+        table.insert(world.WALLS,Wall.create(lastwall))
+        table.insert(world.WALLS,Wall.create(lastwall))
+        num_wall = num_wall + 2
+      end
+    else
+      table.insert(world.WALLS,Wall.create(nil))
+      table.insert(world.WALLS,Wall.create(nil))
+      num_wall = 2
     end
   end
 
