@@ -262,7 +262,7 @@ function world.update(dt)
 
   if num_wall > 1 then
     local first_wall = world.WALLS[1]
-    if first_wall.x+first_wall.height < 0 then
+    if (not first_wall == nil) and first_wall.x+first_wall.height < 0 then
       table.remove(world.WALLS,1)
       num_wall = num_wall - 1
     end
