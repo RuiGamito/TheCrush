@@ -31,6 +31,8 @@ function world.init()
   nudge_src = "audio/bumpi.mp3"
   crush_src = "audio/electricshock.mp3"
 
+  -- Load mainmenu background
+  mainmenu_background = love.graphics.newImage("img/main_menu.png")
 
   world.BLOCKS = {}
   world.WALLS = {}
@@ -335,7 +337,6 @@ function world.update(dt)
     if PU_WAIT_tmp < 0 then
       local pu = PowerUp.createRandom()
       table.insert(world.POWERUPS, pu)
-      print("powering")
       PU_WAIT_tmp = PU_WAIT
     else
       PU_WAIT_tmp = PU_WAIT_tmp - 5
@@ -352,9 +353,15 @@ function world.draw()
     world.drawParticles()
     world.drawBlocks()
     world.drawPowerUps()
+    mgr:draw()
+    world.drawButtons()
+  elseif GAME_STATE == GAMEMENU then
+    mgr:draw()
+    local scale_factor = love.graphics.getHeight() / mainmenu_background:getHeight()
+    love.graphics.draw(mainmenu_background, 0, 0, 0, scale_factor)
+    world.drawButtons()
   end
-  mgr:draw()
-  world.drawButtons()
+
 end
 
 function love.touchpressed(id, x, y, dx, dy, pressure)
