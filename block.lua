@@ -22,6 +22,9 @@ BLOCK_STATUS_RECEDING = 2
 PULSING_TIME = 29
 PULSING_SIZE = 10
 
+CRUSH_SPEED = love.graphics.getHeight()/2
+RETRACT_SPEED = love.graphics.getHeight()/4
+
 DISTORT_VALUE = 20
 
 Block.__index = Block
@@ -100,7 +103,7 @@ function Block.expand(block)
   if block.expand == Block.EXPAND_DOWN then
     -- keep crushing if the block didn't hit the bottom
     if block.height < love.graphics.getHeight() then
-      block.height = block.height + 200
+      block.height = block.height + CRUSH_SPEED
     else
       -- otherwise change status to RECEDING, on the block
       -- and a point ;)
@@ -120,7 +123,7 @@ function Block.expand(block)
   if block.expand == Block.EXPAND_UP then
     -- keep crushing if the block didn't hit the bottom
     if block.y_coord > 0 then
-      block.height = block.height + 200
+      block.height = block.height + CRUSH_SPEED
       block.y_coord = block.y_coord - 200
     else
       -- otherwise change status to RECEDING, on the block
@@ -151,7 +154,7 @@ function Block.retract(block)
   if block.expand == Block.EXPAND_UP then
     if LENGTH > 50 then
       block.y_coord = block.y_coord + 50
-      block.height = block.height - 50
+      block.height = block.height - RETRACT_SPEED
     else
       -- change status to NO CHANGE on the block
       block.status = 0
