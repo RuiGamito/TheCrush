@@ -113,6 +113,7 @@ end
 function world.play()
 
   gameover:stop()
+  gameover:setVolume(2)
   music:play()
   world.BLOCKS = {}
   world.WALLS = {}
