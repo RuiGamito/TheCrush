@@ -93,6 +93,10 @@ end
 
 function Block.expand(block)
 
+  if GAME_STATE ~= PLAYING then
+    return
+  end
+
   if block.expand == Block.EXPAND_DOWN then
     -- keep crushing if the block didn't hit the bottom
     if block.height < love.graphics.getHeight() then
