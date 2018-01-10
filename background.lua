@@ -68,6 +68,10 @@ function Background.startStuff()
   bgX14 = love.graphics.getHeight()*1.3
   bgX15 = love.graphics.getHeight()*1.4
   bgX16 = love.graphics.getHeight()*1.5
+  bgX17 = love.graphics.getHeight()*1.6
+  bgX18 = love.graphics.getHeight()*1.7
+  bgX19 = love.graphics.getHeight()*1.8
+  bgX20 = love.graphics.getHeight()*1.9
 end
 
 function Background.draw()
@@ -113,6 +117,10 @@ function Background.draw()
     love.graphics.rectangle("fill",bgX14,0,4,love.graphics.getHeight())
     love.graphics.rectangle("fill",bgX15,0,4,love.graphics.getHeight())
     love.graphics.rectangle("fill",bgX16,0,4,love.graphics.getHeight())
+    love.graphics.rectangle("fill",bgX17,0,4,love.graphics.getHeight())
+    love.graphics.rectangle("fill",bgX18,0,4,love.graphics.getHeight())
+    love.graphics.rectangle("fill",bgX19,0,4,love.graphics.getHeight())
+    love.graphics.rectangle("fill",bgX20,0,4,love.graphics.getHeight())
 
     --for _,image in ipairs(images) do
     --  love.graphics.draw(image.img, image.x, 0, 0, 1, 1)
@@ -133,6 +141,10 @@ function Background.draw()
     bgX14 = bgX14 - 5
     bgX15 = bgX15 - 5
     bgX16 = bgX16 - 5
+    bgX16 = bgX17 - 5
+    bgX16 = bgX18 - 5
+    bgX16 = bgX19 - 5
+    bgX16 = bgX20 - 5
 
     if bgX1 < 0 then bgX1 = love.graphics.getHeight()*1.5 end
     if bgX2 < 0 then bgX2 = love.graphics.getHeight()*1.5 end
@@ -150,6 +162,10 @@ function Background.draw()
     if bgX14 < 0 then bgX14 = love.graphics.getHeight()*1.5 end
     if bgX15 < 0 then bgX15 = love.graphics.getHeight()*1.5 end
     if bgX16 < 0 then bgX16 = love.graphics.getHeight()*1.5 end
+    if bgX17 < 0 then bgX17 = love.graphics.getHeight()*1.5 end
+    if bgX18 < 0 then bgX18 = love.graphics.getHeight()*1.5 end
+    if bgX19 < 0 then bgX19 = love.graphics.getHeight()*1.5 end
+    if bgX20 < 0 then bgX20 = love.graphics.getHeight()*1.5 end
 
     for _,square in ipairs(squares) do
       love.graphics.setColor(251,60,178,150)
