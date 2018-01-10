@@ -22,7 +22,7 @@ function Zones.actZone_01()
   world.BLOCK_SPAWN_PROBABILITY = 0.01
   world.EXPAND_DIRECTION = Block.EXPAND_RANDOM
 
-  world.GENERATE_WALLS = false
+  world.GENERATE_WALLS = true
 end
 
 
@@ -35,7 +35,7 @@ function Zones.actZone_02()
   world.BLOCK_SPAWN_PROBABILITY = 0.01
   world.EXPAND_DIRECTION = Block.EXPAND_RANDOM
 
-  world.GENERATE_WALLS = false
+  world.GENERATE_WALLS = true
 end
 
 function Zones.actZone_03()
