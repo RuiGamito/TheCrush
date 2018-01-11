@@ -135,7 +135,7 @@ TILE_011 = {
     weight = 1
   },
   rect = {
-   { x = 15, y = 25, w = 10, h = 10},
+   { x = 15, y = 25, w = 5, h = 25},
 
   }
 }
@@ -148,7 +148,7 @@ TILE_012 = {
     weight = 1
   },
   rect = {
-   { x = 13, y = 9, w = 8, h = 13},
+   { x = 13, y = 9, w = 8, h = 20},
 
   }
 }
@@ -250,7 +250,7 @@ TILE_020 = {
     weight = 1
   },
   rect = {
-   { x = 50, y = 13, w = 13, h = 5},
+   { x = 50, y = 13, w = 4, h = 25},
   }
 }
 
@@ -277,6 +277,30 @@ TILE_022 = {
   { x = 75, y = 13, w = 15, h = 4},
   }
 }
+
+TILE_023 = {
+  meta = {
+    rotate = true,
+    top = true,
+    bottom = true,
+    weight = 1
+  },
+  rect = {
+  { x = 35, y = 25, w = 2, h = 10},
+  }
+}
+
+TILE_024 = {
+  meta = {
+    rotate = true,
+    top = true,
+    bottom = true,
+    weight = 1
+  },
+  rect = {
+  { x = 45, y = 74, w = 4, h = 15},
+  }
+}
 TILES = {
   TILE_001,
   TILE_002,
@@ -298,5 +322,7 @@ TILES = {
   TILE_018,
   TILE_019,
   TILE_021,
-  TILE_022
+  TILE_022,
+  TILE_023,
+  TILE_024
 }
