@@ -14,6 +14,7 @@ world = {}
 SPLASH = -1
 GAMEMENU = 0
 PLAYING = 1
+CREDITS = 2
 
 SPLASH_TIME=600
 DO_SPLASH = true
@@ -40,7 +41,9 @@ function world.init()
   crush_src = "audio/electricshock.mp3"
 
   -- Load mainmenu background
-  mainmenu_background = love.graphics.newImage("img/menus.png")
+  --mainmenu_background = love.graphics.newImage("img/menus.png")
+  mainmenu_background = love.graphics.newImage("img/trans_menu.png")
+  credits_screen = love.graphics.newImage("img/trans_credits.png")
 
   splash = love.graphics.newImage("img/splash_screen.png")
 
@@ -409,18 +412,37 @@ function world.draw()
     mgr:draw()
     love.graphics.draw(mainmenu_background, 0, 0, 0, scale_factor)
     world.drawButtons()
+  elseif GAME_STATE == CREDITS then
+    mgr:draw()
+    love.graphics.setColor(0, 0, 0, 255)
+    love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.draw(credits_screen, 0, 0, 0, scale_factor)
   end
 
 end
 
 function love.touchpressed(id, x, y, dx, dy, pressure)
+
+  if GAME_STATE == CREDITS then
+    GAME_STATE = GAMEMENU
+    world.buttons["credits"]:setVisible(true)
+    return
+  end
+
   touch = true
   touch_x = x
   touch_y = y
 end
 
 function love.mousepressed(x, y, button, isTouch)
-    mgr:mouseDown(x, y, button, isTouch)
+  if GAME_STATE == CREDITS then
+    GAME_STATE = GAMEMENU
+    world.buttons["credits"]:setVisible(true)
+    return
+  end
+
+  mgr:mouseDown(x, y, button, isTouch)
 end
 
 function love.touchreleased(id, x, y, dx, dy, pressure)

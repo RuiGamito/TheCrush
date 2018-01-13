@@ -2,8 +2,11 @@
 
 function addButtons()
 
-  ---------------------------------- PLAY AGAIN
   local playAgainBtn = UIButton:new()
+  local startGame = UIButton:new()
+  local credits = UIButton:new()
+
+  ---------------------------------- PLAY AGAIN
   playAgainBtn:setPos(love.graphics.getWidth()/4, love.graphics.getHeight()/2)
   playAgainBtn:setWidth(600)
   playAgainBtn:setHeight(90)
@@ -18,20 +21,40 @@ function addButtons()
   world.buttons["play_again"] = playAgainBtn
 
   ---------------------------------- START GAME
-  local startGame = UIButton:new()
-  startGame:setPos(love.graphics.getWidth()/4, love.graphics.getHeight()/1.6)
+  startGame:setPos(love.graphics.getWidth()/4.2, love.graphics.getHeight()/1.6)
   startGame:setWidth(450)
   startGame:setHeight(120)
   --startGame:setText("Start game")
   startGame:setAnchor(0,0)
   startGame:setEnabled(true)
   startGame:setVisible(true)
+  startGame:setUpColor({0,0,0,0})
   startGame.press = function()
     -- hide the button when pressed
     startGame:setVisible(false)
+    credits:setVisible(false)
     world.play()
   end
   world.buttons["start_game"] = startGame
+
+  ---------------------------------- CREDITS
+  credits:setPos(love.graphics.getWidth()/1.8, love.graphics.getHeight()/1.15)
+  credits:setWidth(300)
+  credits:setHeight(120)
+  --startGame:setText("Start game")
+  credits:setAnchor(0,0)
+  credits:setEnabled(true)
+  credits:setVisible(true)
+  credits:setUpColor({0,0,0,0})
+  credits:setDownColor({0,0,0,0})
+  credits:setStroke(0)
+  credits:setStrokeColor({0,0,0,255})
+  credits.press = function()
+    -- hide the button when pressed
+    credits:setVisible(false)
+    GAME_STATE=CREDITS
+  end
+  world.buttons["credits"] = credits
 
 
 end
