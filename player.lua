@@ -61,7 +61,6 @@ end
 function Player.move(p)
   local x = p.X + (p.target_x/world.PLAYER_SPEED_X)
   local y = p.Y + (p.target_y/world.PLAYER_SPEED_Y)
-  print(x, y)
   p.X = x
   p.Y = y
 
@@ -75,6 +74,13 @@ function Player.move(p)
     p.target_y = p.target_y - 10
   elseif p.target_y < 0 then
     p.target_y = p.target_y + 10
+  end
+
+  function Player.reset_pu(p)
+    NO_CLIP = false
+    world.PLAYER.WIDTH = world.TILE_SIZE
+    world.PLAYER.HEIGHT = world.TILE_SIZE
+    world.BLOCK_SPEED = world.BLOCK_SPEED_BASE
   end
 
 end

@@ -15,6 +15,7 @@ Wall = {
   colorG = 0,
   colorB = 0,
   colorA = 255,
+  bump_intensity = 0
 }
 
 WALL_NUM = 0
@@ -79,6 +80,7 @@ function Wall.create(lastwall)
     self.colorG = COLLIDER_COLOR_5.G
     self.colorB = COLLIDER_COLOR_5.B
   end
+
 
 
   return self
@@ -180,6 +182,10 @@ end
 
 function Wall.checkPlayerWallCollision(agr_wall)
 
+  if NO_CLIP then
+    return false
+  end
+
   local collision = false
 
   for index,agr_wall_colider in ipairs(agr_wall.tile) do
@@ -193,7 +199,6 @@ function Wall.checkPlayerWallCollision(agr_wall)
        rect_x + rect_w > world.PLAYER.X and
        rect_y + rect_h >= world.PLAYER.Y and
        rect_y < world.PLAYER.Y + world.PLAYER.HEIGHT then
-
 
          if     world.PLAYER.X < rect_x and
                 world.PLAYER.X + world.PLAYER.WIDTH > rect_x and

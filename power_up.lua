@@ -1,10 +1,16 @@
 PowerUp = {}
 
-local width = 50
-local height = 50
+local width = 100
+local height = 100
 
 PU_1 = 1
 PU_2 = 2
+
+-- INIT the power ups
+pu_random = love.graphics.newImage("img/power_ups/Random.png")
+pu_noclip = love.graphics.newImage("img/power_ups/Noclip.png")
+pu_sizeup = love.graphics.newImage("img/power_ups/Sizeup.png")
+pu_slow   = love.graphics.newImage("img/power_ups/Slow.png")
 
 function PowerUp.createRandom()
   local self = setmetatable({}, PowerUp)
@@ -12,7 +18,22 @@ function PowerUp.createRandom()
   self.height = height
   self.width = width
   self.x = love.graphics.getWidth()
-  self.y = love.math.random(0,love.graphics.getHeight()-self.height)
+  self.iy = love.math.random(0,love.graphics.getHeight())
+
+  local img = love.math.random(0,3)
+
+  self.pid = img
+
+
+  if img == 0 then
+    self.image = pu_random
+  elseif img == 1 then
+    self.image = pu_noclip
+  elseif img == 2 then
+    self.image = pu_sizeup
+  elseif img == 3 then
+    self.image = pu_slow
+  end
 
   return self
 end

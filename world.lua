@@ -11,8 +11,12 @@ require("zones")
 world = {}
 
 -- GAME STATES
+SPLASH = -1
 GAMEMENU = 0
 PLAYING = 1
+
+SPLASH_TIME=600
+DO_SPLASH = true
 
 numberOfTicks = 0
 delay = 100
@@ -26,13 +30,19 @@ function world.init()
   music = love.audio.newSource("audio/daft.mp3")
   music:setLooping(true)
 
+  menu_music = love.audio.newSource("audio/Main_Menu_Music.mp3")
+  menu_music:setLooping(true)
+
   gameover = love.audio.newSource("audio/gameover.mp3")
+  gameover:setVolume(4)
 
   nudge_src = "audio/bumpi.mp3"
   crush_src = "audio/electricshock.mp3"
 
   -- Load mainmenu background
-  mainmenu_background = love.graphics.newImage("img/main_menu.png")
+  mainmenu_background = love.graphics.newImage("img/menus.png")
+
+  splash = love.graphics.newImage("img/splash_screen.png")
 
   world.BLOCKS = {}
   world.WALLS = {}
@@ -53,8 +63,8 @@ function world.init()
   world.DYNAMIC_BLOCK_WIDTH = false
   world.DYNAMIC_BLOCK_Y = true
   world.BLOCK_SPAWN_LOCATION = "top" --"bottom" -- "top"
-  world.BLOCK_SPEED = 2.4
-  world.BLOCK_SPEED_BASE = 2.4
+  world.BLOCK_SPEED = 3
+  world.BLOCK_SPEED_BASE = 3
   world.BLOCK_SPAWN_PROBABILITY = 0.01
   world.EXPAND_DIRECTION = Block.EXPAND_RANDOM
 
@@ -73,7 +83,7 @@ function world.init()
   mgr = UIManager:getInstance()
   mgrContainer = mgr.rootCtrl.coreContainer
 
-  GAME_STATE = GAMEMENU
+  GAME_STATE = SPLASH
   -- Set the BLOCK_WAIT var
   BLOCK_WAIT = 10
   BLOCK_WAIT_tmp = BLOCK_WAIT
@@ -105,15 +115,17 @@ function world.init()
     loaded_score_imgs[id] = love.graphics.newImage(im)
   end
 
-  -- INIT the power ups
-  pu_random = love.graphics.newImage("img/power_ups/Random.png")
+end
 
+function world.gamemenu()
+  menu_music:setVolume(2.5)
+  menu_music:play()
 end
 
 function world.play()
 
   gameover:stop()
-  gameover:setVolume(2)
+  menu_music:stop()
   music:play()
   world.BLOCKS = {}
   world.WALLS = {}
@@ -122,6 +134,7 @@ function world.play()
   Zones.actZone_01()
 
   world.BLOCK_SPEED = world.BLOCK_SPEED_BASE
+  print("Setting BLOCK_SPEED")
   WALL_NUM = 0
   -- create the block table
   initial_block = Block.create()
@@ -167,15 +180,24 @@ function world.update(dt)
   Zones.updateZoneTrigger()
 
   if PLAYER_STATUS == PLAYER_CRUSHED then
-
     local b = world.buttons["play_again"]
     if not b:getVisible() then
       b:setVisible(true)
       mgrContainer:addChild(b)
     end
-
     return
   end
+
+  if DO_SPLASH and SPLASH_TIME > 0 then
+    SPLASH_TIME = SPLASH_TIME - 2
+  elseif DO_SPLASH and not (SPLASH_TIME > 0) then
+    DO_SPLASH = false
+    SPLASH_TIME = 300
+    GAME_STATE = GAMEMENU
+    world.gamemenu()
+  end
+
+
 
   -- create some keyboard events to control the player
   if love.keyboard.isDown("right") then
@@ -274,6 +296,7 @@ function world.update(dt)
   -- decrease the x pos of the blocks, that is, make them move to the left
   -- also, decrease block crush_trigger , and if <= 0, CRUSH!!!
   for _, block in ipairs(world.BLOCKS) do
+
       block.x_coord = block.x_coord - world.BLOCK_SPEED
 
       local STATUS = block.status
@@ -303,6 +326,8 @@ function world.update(dt)
 
   end -- for
 
+  --print("wall speed: ", world.BLOCK_SPEED )
+
   for _, wall in ipairs(world.WALLS) do
       wall.x = wall.x - world.BLOCK_SPEED
       world.checkPlayerWallCollision(wall)
@@ -327,10 +352,27 @@ function world.update(dt)
   for idx, pu in ipairs(world.POWERUPS) do
 
     if world.checkPlayerPowerUpCollision(pu) then
+      Player.reset_pu(world.PLAYER)
       table.remove(tmp_powerups,idx)
+
+      if pu.pid == 0 then
+        pu.pid = love.math.random(1,3)
+      end
+
+      if pu.pid == 1 then
+        print("POWER: got NO_CLIP")
+        NO_CLIP = true
+      elseif pu.pid == 2 then
+        print("POWER: got DOUBLE_SIZE")
+        world.PLAYER.WIDTH = world.PLAYER.WIDTH + world.TILE_SIZE
+        world.PLAYER.HEIGHT = world.PLAYER.HEIGHT + world.TILE_SIZE
+      elseif pu.pid == 3 then
+        print("POWER: got SLOW")
+        world.BLOCK_SPEED = world.BLOCK_SPEED_BASE / 2
+      end
     else
       pu.x = pu.x - 7
-      pu.y = (-10)*math.sin(0.02*(pu.x)/2) + 350
+      pu.y = (-150)*math.sin(0.05*(pu.x)/3) + pu.iy
     end
   end
 
@@ -346,19 +388,25 @@ function world.update(dt)
 end
 
 function world.draw()
-  if GAME_STATE == PLAYING then
+  local scale_factor = love.graphics.getHeight() / mainmenu_background:getHeight()
+  if GAME_STATE == SPLASH then
+    love.graphics.setColor(255,255,255)
+    love.graphics.draw(mainmenu_background, 0, 0, 0, scale_factor)
+    love.graphics.setColor(255,255,255,SPLASH_TIME)
+    love.graphics.draw(splash, 0, 0, 0, scale_factor)
+    love.graphics.setColor(255,255,255,255)
+  elseif GAME_STATE == PLAYING then
     Background.draw()
     world.drawWalls()
+    world.drawPowerUps()
     world.drawPlayer()
-    world.drawInfo()
     world.drawParticles()
     world.drawBlocks()
-    world.drawPowerUps()
     mgr:draw()
     world.drawButtons()
+    world.drawInfo()
   elseif GAME_STATE == GAMEMENU then
     mgr:draw()
-    local scale_factor = love.graphics.getHeight() / mainmenu_background:getHeight()
     love.graphics.draw(mainmenu_background, 0, 0, 0, scale_factor)
     world.drawButtons()
   end
@@ -524,9 +572,7 @@ function world.drawPlayer()
 end
 
 function world.drawInfo()
-  -- Print the score
-  -- love.graphics.setColor(36, 248, 229)
-  -- love.graphics.print("Score: " .. PLAYER_SCORE, 10, 100, 0, 3, 3, 0, 0)
+
   world.drawScore()
 
   -- Print the level message
@@ -618,7 +664,7 @@ end
 function world.drawPowerUps()
   love.graphics.setColor(255, 255, 255, 255)
   for _,pu in ipairs(world.POWERUPS) do
-    love.graphics.draw(pu_random,pu.x,pu.y,0,0.13)
+    love.graphics.draw(pu.image,pu.x,pu.y,0,0.19)
   end
 end
 

@@ -17,8 +17,8 @@ function Zones.actZone_01()
   world.DYNAMIC_BLOCK_WIDTH = false
   world.DYNAMIC_BLOCK_Y = false
   world.BLOCK_SPAWN_LOCATION = "top" --"bottom"
-  world.BLOCK_SPEED = 2.4
-  world.BLOCK_SPEED_BASE = 2.4
+  --world.BLOCK_SPEED = 2.4
+  --world.BLOCK_SPEED_BASE = 2.4
   world.BLOCK_SPAWN_PROBABILITY = 0.01
   world.EXPAND_DIRECTION = Block.EXPAND_RANDOM
 
@@ -30,8 +30,8 @@ function Zones.actZone_02()
   world.DYNAMIC_BLOCK_WIDTH = false
   world.DYNAMIC_BLOCK_Y = false
   world.BLOCK_SPAWN_LOCATION = "bottom"  -- "top"
-  world.BLOCK_SPEED = 2.4
-  world.BLOCK_SPEED_BASE = 2.4
+  --world.BLOCK_SPEED = 2.4
+  --world.BLOCK_SPEED_BASE = 2.4
   world.BLOCK_SPAWN_PROBABILITY = 0.01
   world.EXPAND_DIRECTION = Block.EXPAND_RANDOM
 

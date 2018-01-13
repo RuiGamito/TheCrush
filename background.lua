@@ -70,8 +70,8 @@ function Background.startStuff()
   bgX16 = love.graphics.getHeight()*1.5
   bgX17 = love.graphics.getHeight()*1.6
   bgX18 = love.graphics.getHeight()*1.7
-  bgX19 = love.graphics.getHeight()*1.8
-  bgX20 = love.graphics.getHeight()*1.9
+  --bgX19 = love.graphics.getHeight()*1.8
+  --bgX20 = love.graphics.getHeight()*1.9
 end
 
 function Background.draw()
@@ -99,6 +99,11 @@ function Background.draw()
     love.graphics.rectangle("fill",0,increment*8,love.graphics.getWidth(),4)
     love.graphics.rectangle("fill",0,increment*9,love.graphics.getWidth(),4)
     love.graphics.rectangle("fill",0,increment*10,love.graphics.getWidth(),4)
+    love.graphics.rectangle("fill",0,increment*11,love.graphics.getWidth(),4)
+    love.graphics.rectangle("fill",0,increment*12,love.graphics.getWidth(),4)
+    love.graphics.rectangle("fill",0,increment*13,love.graphics.getWidth(),4)
+    love.graphics.rectangle("fill",0,increment*14,love.graphics.getWidth(),4)
+    love.graphics.rectangle("fill",0,increment*15,love.graphics.getWidth(),4)
     --y
 
     love.graphics.rectangle("fill",bgX1,0,4,love.graphics.getHeight())
@@ -119,32 +124,32 @@ function Background.draw()
     love.graphics.rectangle("fill",bgX16,0,4,love.graphics.getHeight())
     love.graphics.rectangle("fill",bgX17,0,4,love.graphics.getHeight())
     love.graphics.rectangle("fill",bgX18,0,4,love.graphics.getHeight())
-    love.graphics.rectangle("fill",bgX19,0,4,love.graphics.getHeight())
-    love.graphics.rectangle("fill",bgX20,0,4,love.graphics.getHeight())
+    --love.graphics.rectangle("fill",bgX19,0,4,love.graphics.getHeight())
+    --love.graphics.rectangle("fill",bgX20,0,4,love.graphics.getHeight())
 
     --for _,image in ipairs(images) do
     --  love.graphics.draw(image.img, image.x, 0, 0, 1, 1)
     --end
-    bgX1 = bgX1 - 5
-    bgX2 = bgX2 - 5
-    bgX3 = bgX3 - 5
-    bgX4 = bgX4 - 5
-    bgX5 = bgX5 - 5
-    bgX6 = bgX6 - 5
-    bgX7 = bgX7 - 5
-    bgX8 = bgX8 - 5
-    bgX9 = bgX9 - 5
-    bgX10 = bgX10 - 5
-    bgX11 = bgX11 - 5
-    bgX12 = bgX12 - 5
-    bgX13 = bgX13 - 5
-    bgX14 = bgX14 - 5
-    bgX15 = bgX15 - 5
-    bgX16 = bgX16 - 5
-    bgX16 = bgX17 - 5
-    bgX16 = bgX18 - 5
-    bgX16 = bgX19 - 5
-    bgX16 = bgX20 - 5
+    bgX1 = bgX1 - speed
+    bgX2 = bgX2 - speed
+    bgX3 = bgX3 - speed
+    bgX4 = bgX4 - speed
+    bgX5 = bgX5 - speed
+    bgX6 = bgX6 - speed
+    bgX7 = bgX7 - speed
+    bgX8 = bgX8 - speed
+    bgX9 = bgX9 - speed
+    bgX10 = bgX10 - speed
+    bgX11 = bgX11 - speed
+    bgX12 = bgX12 - speed
+    bgX13 = bgX13 - speed
+    bgX14 = bgX14 - speed
+    bgX15 = bgX15 - speed
+    bgX16 = bgX16 - speed
+    bgX17 = bgX17 - speed
+    bgX18 = bgX18 - speed
+    --bgX19 = bgX19 - 5
+    --bgX20 = bgX20 - 5
 
     if bgX1 < 0 then bgX1 = love.graphics.getHeight()*1.5 end
     if bgX2 < 0 then bgX2 = love.graphics.getHeight()*1.5 end
@@ -164,13 +169,13 @@ function Background.draw()
     if bgX16 < 0 then bgX16 = love.graphics.getHeight()*1.5 end
     if bgX17 < 0 then bgX17 = love.graphics.getHeight()*1.5 end
     if bgX18 < 0 then bgX18 = love.graphics.getHeight()*1.5 end
-    if bgX19 < 0 then bgX19 = love.graphics.getHeight()*1.5 end
-    if bgX20 < 0 then bgX20 = love.graphics.getHeight()*1.5 end
+    --if bgX19 < 0 then bgX19 = love.graphics.getHeight()*1.5 end
+    --if bgX20 < 0 then bgX20 = love.graphics.getHeight()*1.5 end
 
     for _,square in ipairs(squares) do
       love.graphics.setColor(251,60,178,150)
       love.graphics.rectangle("fill",square.x,square.y-2,4,4)
-        love.graphics.setColor(251,60,178,75)
+      love.graphics.setColor(251,60,178,75)
       love.graphics.rectangle("fill",square.x-6,square.y-6,16,16)
     end
   end
@@ -180,24 +185,22 @@ function Background.update()
   if GAME_STATE == PLAYING then
 
     for _,square in ipairs(squares) do
-
       if square.x<0 or square.x>love.graphics.getWidth() then
         line = math.floor(love.math.random(0,10))
         square.x = love.graphics.getWidth()
         square.y = love.graphics.getHeight()*0.1*line
       end
       square.x = square.x - 10
-
     end
 
-    if  last_x < love.graphics.getWidth()  then
-      Background.loadNewImage()
-    end
+    --if  last_x < love.graphics.getWidth() then
+    --  Background.loadNewImage()
+    --end
 
-    for _,image in ipairs(images) do
-      image.x = image.x - speed
-    end
+    --for _,image in ipairs(images) do
+    --  image.x = image.x - speed
+    --end
 
-    last_x = last_x - speed
+    --last_x = last_x - speed
   end
 end
