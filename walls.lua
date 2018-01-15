@@ -242,7 +242,7 @@ function Wall.checkPlayerWallCollision(agr_wall)
            -- Create new source so that we can have multiple sounds simultaneously
            -- Consider using SLAM in the future (https://love2d.org/wiki/SLAM)
            local snd_src = love.audio.newSource(nudge_src, "static")
-           snd_src:setVolume(0.6)
+           snd_src:setVolume(0.2)
            snd_src:play()
          end
        end

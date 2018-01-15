@@ -133,7 +133,9 @@ function Block.expand(block)
       PART[2] = 0
       PLAYER_SCORE = PLAYER_SCORE + 1
       block.status = 2
-      love.audio.newSource(crush_src, "static"):play()
+      local snd_src = love.audio.newSource(crush_src, "static")
+      snd_src:setVolume(0.1)
+      snd_src:play()
     end
   end
 end
