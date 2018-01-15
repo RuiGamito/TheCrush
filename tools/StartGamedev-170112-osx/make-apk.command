@@ -19,10 +19,15 @@ cp -r tools/love-android-sdl2/original/love tools/love-android-sdl2/src/
 datevar=`date +"%m%d%H%M%S"`
 
 # replace id, name and src subdir
-sed -i "" "s/loveToAndroid Game/Game $datevar/g" tools/love-android-sdl2/AndroidManifest.xml
-sed -i "" "s/love.to.android/love\.to\.android$datevar/g" tools/love-android-sdl2/AndroidManifest.xml
-sed -i "" "s/love.to.android/love\.to\.android$datevar/g" tools/love-android-sdl2/src/love/to/android/LtaActivity.java
-mv tools/love-android-sdl2/src/love/to/android tools/love-android-sdl2/src/love/to/android$datevar
+#sed -i "" "s/loveToAndroid Game/Game $datevar/g" tools/love-android-sdl2/AndroidManifest.xml
+#sed -i "" "s/love.to.android/love\.to\.android$datevar/g" tools/love-android-sdl2/AndroidManifest.xml
+#sed -i "" "s/love.to.android/love\.to\.android$datevar/g" tools/love-android-sdl2/src/love/to/android/LtaActivity.java
+#mv tools/love-android-sdl2/src/love/to/android tools/love-android-sdl2/src/love/to/android$datevar
+
+sed -i "" "s/loveToAndroid Game/AVoid/g" tools/love-android-sdl2/AndroidManifest.xml
+sed -i "" "s/love.to.android/love\.to\.avoid/g" tools/love-android-sdl2/AndroidManifest.xml
+sed -i "" "s/love.to.android/love\.to\.avoid/g" tools/love-android-sdl2/src/love/to/android/LtaActivity.java
+mv tools/love-android-sdl2/src/love/to/android tools/love-android-sdl2/src/love/to/avoid
 
 rm game.apk
 pwd
