@@ -22,6 +22,8 @@ DO_SPLASH = true
 numberOfTicks = 0
 delay = 100
 
+CREDITS_ON = false
+
 -- GAME CICLE
 
 -- Initialize the world
@@ -179,17 +181,7 @@ function world.update(dt)
 
   Background.update()
   mgr:update(dt)
-  pSystem:update(dt)
-  Zones.updateZoneTrigger()
 
-  if PLAYER_STATUS == PLAYER_CRUSHED then
-    local b = world.buttons["play_again"]
-    if not b:getVisible() then
-      b:setVisible(true)
-      mgrContainer:addChild(b)
-    end
-    return
-  end
 
   if DO_SPLASH and SPLASH_TIME > 0 then
     SPLASH_TIME = SPLASH_TIME - 2
@@ -200,7 +192,21 @@ function world.update(dt)
     world.gamemenu()
   end
 
+  if PLAYER_STATUS == PLAYER_CRUSHED then
+    local b = world.buttons["play_again"]
+    if not b:getVisible() then
+      b:setVisible(true)
+      mgrContainer:addChild(b)
+    end
+    return
+  end
 
+  if GAME_STATE ~= PLAYING then
+    return
+  end
+
+  pSystem:update(dt)
+  Zones.updateZoneTrigger()
 
   -- create some keyboard events to control the player
   if love.keyboard.isDown("right") then
@@ -424,12 +430,6 @@ end
 
 function love.touchpressed(id, x, y, dx, dy, pressure)
 
-  if GAME_STATE == CREDITS then
-    GAME_STATE = GAMEMENU
-    world.buttons["credits"]:setVisible(true)
-    return
-  end
-
   touch = true
   touch_x = x
   touch_y = y
@@ -614,6 +614,12 @@ function world.drawScore()
   for i,d in ipairs(score_table) do
     love.graphics.draw(d, offset + i*step, 20, 0, 0.4)
   end
+end
+
+function world.drawLog()
+  love.graphics.setColor(0, 255, 0)
+  love.graphics.print(world.MESSAGE, 200, 200)
+  love.graphics.setColor(255, 255, 255)
 end
 
 function world.processScore()

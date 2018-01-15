@@ -38,21 +38,20 @@ function addButtons()
   world.buttons["start_game"] = startGame
 
   ---------------------------------- CREDITS
-  credits:setPos(love.graphics.getWidth()/1.8, love.graphics.getHeight()/1.15)
-  credits:setWidth(300)
+  credits:setPos(love.graphics.getWidth()/2.1, love.graphics.getHeight()/1.15)
+  credits:setWidth(350)
   credits:setHeight(120)
-  --startGame:setText("Start game")
   credits:setAnchor(0,0)
   credits:setEnabled(true)
   credits:setVisible(true)
-  credits:setUpColor({0,0,0,0})
-  credits:setDownColor({0,0,0,0})
+  credits:setUpColor({0,0,0,255})
+  credits:setDownColor({0,0,0,255})
   credits:setStroke(0)
   credits:setStrokeColor({0,0,0,255})
   credits.press = function()
     -- hide the button when pressed
-    credits:setVisible(false)
     GAME_STATE=CREDITS
+    credits:setVisible(false)
   end
   world.buttons["credits"] = credits
 
