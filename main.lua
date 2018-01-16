@@ -2,7 +2,7 @@ require("colors")
 require("world")
 
 
-love.window.setMode(800, 600, {resizable=false, highdpi=true, borderless=false, vsync=true} )
+love.window.setMode(1280, 720, {resizable=false, highdpi=true, borderless=false, vsync=true} )
 
 -- BLOCK = {XX, YY, WIDTH, HEIGHT, CRUSH_TRIGGER, STATUS}
 -- STATUS = 0 -> No change
