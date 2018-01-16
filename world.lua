@@ -15,6 +15,8 @@ SPLASH = -1
 GAMEMENU = 0
 PLAYING = 1
 CREDITS = 2
+MULTIPLAYER = 3
+HOWTOPLAY = 4
 
 SPLASH_TIME=600
 DO_SPLASH = true
@@ -44,8 +46,10 @@ function world.init()
 
   -- Load mainmenu background
   --mainmenu_background = love.graphics.newImage("img/menus.png")
-  mainmenu_background = love.graphics.newImage("img/trans_menu.png")
+  mainmenu_background = love.graphics.newImage("img/menus.png")
   credits_screen = love.graphics.newImage("img/trans_credits.png")
+  multiplayer_screen = love.graphics.newImage("img/multiplayer.png")
+  howtoplay_screen = love.graphics.newImage("img/multiplayer.png")
 
   splash = love.graphics.newImage("img/splash_screen.png")
 
@@ -424,6 +428,18 @@ function world.draw()
     love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.draw(credits_screen, 0, 0, 0, scale_factor)
+  elseif GAME_STATE == MULTIPLAYER then
+    mgr:draw()
+    love.graphics.setColor(0, 0, 0, 255)
+    love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.draw(multiplayer_screen, 0, 0, 0, scale_factor)
+  elseif GAME_STATE == HOWTOPLAY then
+    mgr:draw()
+    love.graphics.setColor(0, 0, 0, 255)
+    love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.draw(howtoplay_screen, 0, 0, 0, scale_factor)
   end
 
 end
@@ -439,6 +455,23 @@ function love.mousepressed(x, y, button, isTouch)
   if GAME_STATE == CREDITS then
     GAME_STATE = GAMEMENU
     world.buttons["credits"]:setVisible(true)
+    world.buttons["multiplayer"]:setVisible(true)
+    world.buttons["start_game"]:setVisible(true)
+    world.buttons["howtoplay"]:setVisible(true)
+    return
+  elseif GAME_STATE == MULTIPLAYER then
+    GAME_STATE = GAMEMENU
+    world.buttons["multiplayer"]:setVisible(true)
+    world.buttons["start_game"]:setVisible(true)
+    world.buttons["credits"]:setVisible(true)
+    world.buttons["howtoplay"]:setVisible(true)
+    return
+  elseif GAME_STATE == HOWTOPLAY then
+    GAME_STATE = GAMEMENU
+    world.buttons["multiplayer"]:setVisible(true)
+    world.buttons["start_game"]:setVisible(true)
+    world.buttons["credits"]:setVisible(true)
+    world.buttons["howtoplay"]:setVisible(true)
     return
   end
 
