@@ -37,7 +37,7 @@ function world.init()
   menu_music:setLooping(true)
 
   gameover = love.audio.newSource("audio/gameover.mp3")
-  gameover:setVolume(0.7)
+  gameover:setVolume(0.6)
 
   nudge_src = "audio/bumpi.mp3"
   crush_src = "audio/electricshock.mp3"
