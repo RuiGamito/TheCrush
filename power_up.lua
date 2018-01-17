@@ -3,14 +3,13 @@ PowerUp = {}
 local width = 100
 local height = 100
 
-PU_1 = 1
-PU_2 = 2
-
 -- INIT the power ups
 pu_random = love.graphics.newImage("img/power_ups/Random.png")
 pu_noclip = love.graphics.newImage("img/power_ups/Noclip.png")
 pu_sizeup = love.graphics.newImage("img/power_ups/Sizeup.png")
 pu_slow   = love.graphics.newImage("img/power_ups/Slow.png")
+
+ACTIVE_PU = -1
 
 function PowerUp.createRandom()
   local self = setmetatable({}, PowerUp)

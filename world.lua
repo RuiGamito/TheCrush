@@ -32,6 +32,8 @@ score_counter = score_counter_base
 speed_counter_base = 100
 speed_counter = score_counter_base
 
+pu_time = 200
+
 -- GAME CICLE
 
 -- Initialize the world
@@ -55,7 +57,7 @@ function world.init()
   mainmenu_background = love.graphics.newImage("img/menus.png")
   credits_screen = love.graphics.newImage("img/trans_credits.png")
   multiplayer_screen = love.graphics.newImage("img/multiplayer.png")
-  howtoplay_screen = love.graphics.newImage("img/multiplayer.png")
+  howtoplay_screen = love.graphics.newImage("img/how_to_play.png")
 
   splash = love.graphics.newImage("img/splash_screen.png")
 
@@ -88,9 +90,6 @@ function world.init()
   world.CRUSH_BASE_VALUE = 500
   world.GRAVITY_X=0
   world.GRAVITY_Y=0
-
-
-
 
   -- Initialize buttons
   world.buttons = {}
@@ -372,27 +371,39 @@ function world.update(dt)
 
     if world.checkPlayerPowerUpCollision(pu) then
       Player.reset_pu(world.PLAYER)
+
+      ACTIVE_PU = pu.pid
+
       table.remove(tmp_powerups,idx)
+      pu_time = 300
 
       if pu.pid == 0 then
         pu.pid = love.math.random(1,3)
       end
 
       if pu.pid == 1 then
-        print("POWER: got NO_CLIP")
         NO_CLIP = true
       elseif pu.pid == 2 then
-        print("POWER: got DOUBLE_SIZE")
         world.PLAYER.WIDTH = world.PLAYER.WIDTH + world.TILE_SIZE
         world.PLAYER.HEIGHT = world.PLAYER.HEIGHT + world.TILE_SIZE
       elseif pu.pid == 3 then
-        print("POWER: got SLOW")
         world.BLOCK_SPEED = world.BLOCK_SPEED_BASE / 2
       end
     else
       pu.x = pu.x - 7
       pu.y = (-150)*math.sin(0.05*(pu.x)/3) + pu.iy
     end
+  end
+
+  print("===>",pu_time)
+
+  -- decrease pu timer
+  if ACTIVE_PU ~= -1 and pu_time < 0 then
+    Player.reset_pu()
+    pu_time = 300
+    ACTIVE_PU = -1
+  else
+    pu_time = pu_time - 1
   end
 
   if GAME_STATE == PLAYING then
@@ -461,7 +472,6 @@ function world.draw()
 end
 
 function love.touchpressed(id, x, y, dx, dy, pressure)
-
   touch = true
   touch_x = x
   touch_y = y
@@ -671,6 +681,10 @@ function world.drawLog()
   love.graphics.setColor(255, 255, 255)
 end
 
+function world.drawPowerUpIcon()
+
+end
+
 function world.processScore()
   local t = {}
   local str_score = tostring(PLAYER_SCORE)
@@ -742,6 +756,18 @@ function world.drawPowerUps()
   love.graphics.setColor(255, 255, 255, 255)
   for _,pu in ipairs(world.POWERUPS) do
     love.graphics.draw(pu.image,pu.x,pu.y,0,0.19)
+  end
+
+  -- draw the active power up icon
+
+  if ACTIVE_PU == 0 then
+    love.graphics.draw(pu_random,love.graphics.getWidth()-200,30,0,0.22)
+  elseif ACTIVE_PU == 1 then
+    love.graphics.draw(pu_noclip,love.graphics.getWidth()-200,30,0,0.22)
+  elseif ACTIVE_PU == 2 then
+    love.graphics.draw(pu_sizeup,love.graphics.getWidth()-200,30,0,0.22)
+  elseif ACTIVE_PU == 3 then
+    love.graphics.draw(pu_slow,love.graphics.getWidth()-200,30,0,0.22)
   end
 end
 
