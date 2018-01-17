@@ -301,6 +301,41 @@ TILE_024 = {
   { x = 45, y = 74, w = 4, h = 15},
   }
 }
+
+TILE_025 = {
+  meta = {
+    rotate = true,
+    top = true,
+    bottom = true,
+    weight = 1
+  },
+  rect = {
+  { x = 45, y = 74, w = 50, h = 15},
+  }
+}
+
+TILE_026 = {
+  meta = {
+    rotate = true,
+    top = true,
+    bottom = true,
+    weight = 1
+  },
+  rect = {
+  { x = 45, y = 54, w = 30, h = 5},
+  }
+}
+TILE_027 = {
+  meta = {
+    rotate = true,
+    top = true,
+    bottom = true,
+    weight = 1
+  },
+  rect = {
+  { x = 33, y = 60, w = 25, h = 8},
+  }
+}
 TILES = {
   TILE_001,
   TILE_002,
@@ -324,5 +359,8 @@ TILES = {
   TILE_021,
   TILE_022,
   TILE_023,
-  TILE_024
+  TILE_024,
+  TILE_025,
+  TILE_026,
+  TILE_027
 }
