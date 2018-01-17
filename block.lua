@@ -113,7 +113,7 @@ function Block.expand(block)
       if PLAYER_SCORE == nil then
         PLAYER_SCORE = 0
       end
-      PLAYER_SCORE = PLAYER_SCORE + 1
+      --PLAYER_SCORE = PLAYER_SCORE + 1
       block.status = 2
       local snd_src = love.audio.newSource(crush_src, "static")
       snd_src:setVolume(1)
@@ -131,7 +131,7 @@ function Block.expand(block)
       pSystem:emit(32)
       PART[1] = block.x_coord + block.width/2
       PART[2] = 0
-      PLAYER_SCORE = PLAYER_SCORE + 1
+      --PLAYER_SCORE = PLAYER_SCORE + 1
       block.status = 2
       local snd_src = love.audio.newSource(crush_src, "static")
       snd_src:setVolume(1)

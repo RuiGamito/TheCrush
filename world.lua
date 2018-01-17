@@ -26,6 +26,12 @@ delay = 100
 
 CREDITS_ON = false
 
+score_counter_base = 1000
+score_counter = score_counter_base
+
+speed_counter_base = 100
+speed_counter = score_counter_base
+
 -- GAME CICLE
 
 -- Initialize the world
@@ -116,7 +122,7 @@ function world.init()
     "img/score/d8.png",
     "img/score/d9.png",
     "img/score/d0.png",
-    "img/score/score.png"
+    "img/score/distance.png"
   }
 
   loaded_score_imgs = {}
@@ -398,6 +404,16 @@ function world.update(dt)
       PU_WAIT_tmp = PU_WAIT_tmp - 5
     end
   end
+
+
+  if score_counter < 0 then
+    PLAYER_SCORE = PLAYER_SCORE + 1
+    score_counter = score_counter_base
+  else
+    score_counter = score_counter - (20 * world.BLOCK_SPEED)
+  end
+
+  world.updateSpeed()
 end
 
 function world.draw()
@@ -638,10 +654,10 @@ end
 
 function world.drawScore()
   love.graphics.setColor(36, 248, 229)
-  love.graphics.draw(loaded_score_imgs[11], -70, 20, 0, 0.4)
+  love.graphics.draw(loaded_score_imgs[11], 20, 20, 0, 0.4)
 
   local score_table = world.processScore()
-  local offset = 70
+  local offset = 150
   local step = 40
 
   for i,d in ipairs(score_table) do
@@ -727,6 +743,18 @@ function world.drawPowerUps()
   for _,pu in ipairs(world.POWERUPS) do
     love.graphics.draw(pu.image,pu.x,pu.y,0,0.19)
   end
+end
+
+function world.updateSpeed()
+  print("Speed_counter",speed_counter)
+  if speed_counter < 0 then
+    world.BLOCK_SPEED_BASE = world.BLOCK_SPEED_BASE + 1
+    world.BLOCK_SPEED = world.BLOCK_SPEED_BASE
+    speed_counter = speed_counter_base
+  else
+    speed_counter = speed_counter - 1
+  end
+  world.BLOCK_SPAWN_PROBABILITY = 0.01 + (0.001 * world.BLOCK_SPEED_BASE)
 end
 
 function world.print()
