@@ -23,7 +23,7 @@ function addButtons()
   world.buttons["play_again"] = playAgainBtn
 
   ---------------------------------- START GAME
-  startGame:setPos(love.graphics.getWidth()/5.8, love.graphics.getHeight()/1.58)
+  startGame:setPos(love.graphics.getWidth()/5.8, love.graphics.getHeight()/1.80)
   startGame:setWidth(550)
   startGame:setHeight(120)
   --startGame:setText("Start game")
@@ -43,7 +43,7 @@ function addButtons()
   world.buttons["start_game"] = startGame
 
   ---------------------------------- MULTIPLAYER
-  multiplayer:setPos(love.graphics.getWidth()/1.6, love.graphics.getHeight()/1.58)
+  multiplayer:setPos(love.graphics.getWidth()/1.6, love.graphics.getHeight()/1.80)
   multiplayer:setWidth(550)
   multiplayer:setHeight(120)
   --startGame:setText("Start game")
@@ -62,7 +62,7 @@ function addButtons()
   world.buttons["multiplayer"] = multiplayer
 
   ---------------------------------- CREDITS
-  credits:setPos(love.graphics.getWidth()/1.2, love.graphics.getHeight()/1.15)
+  credits:setPos(love.graphics.getWidth()/1.3, love.graphics.getHeight()/1.30)
   credits:setWidth(350)
   credits:setHeight(120)
   credits:setAnchor(0,0)
@@ -80,8 +80,8 @@ function addButtons()
   world.buttons["credits"] = credits
 
   ---------------------------------- HOW TO PLAY
-  howtoplay:setPos(love.graphics.getWidth()/20, love.graphics.getHeight()/1.15)
-  howtoplay:setWidth(350)
+  howtoplay:setPos(love.graphics.getWidth()/13, love.graphics.getHeight()/1.30)
+  howtoplay:setWidth(430)
   howtoplay:setHeight(120)
   howtoplay:setAnchor(0,0)
   howtoplay:setEnabled(true)
